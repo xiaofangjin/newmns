@@ -1,0 +1,149 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+    .layui-laydate.layui-laydate-range{
+        width:100%;
+        overflow-y: hidden;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+</style>
+{/block}
+{block name="content"}
+
+    <section id="main-content">
+        <section class="wrapper">
+            <!--面包屑导航 BEGIN-->
+            <ul class="breadcrumb">
+                <li><a href="index.html"><i class="icon-home"><img style="width:12px;margin-top: -3px"
+                                                                   src="__HOUTAI2__/img/sy.png" alt=""></i> 首页</a>
+                </li>
+                <li><a href="javascript:;" id="parent_menu">用户管理</a></li>
+                <li class="active" id="son_menu">团队管理</li>
+            </ul>
+            <!--面包屑导航 END-->
+            <div class="formbody">
+                <div id="tab2" class="tabson">
+                    <div id="searchForm">
+                        <ul>
+                            <li><label>&nbsp;账号</label>
+                                <input data-action='data' type="text" size="10" class="dfinputtt" value="" /> <label>&nbsp;</label>
+                                <input data-action='select' name="" type="submit" id="search" class="scbtn" value="查询" />
+                                <input type="submit" id='shua' class="scbtn" value="返回">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size:20px;">
+                <nav>
+                    <ul id='abc'>
+                        <li id='qwe'  >
+                            <img style="width:25px;height:20px"  src='__STATIC__/admin/img/11.png'>
+                            <a id="zxcv" onclick="aa('{$arr.id}')" style="font-size:20px;" data-action='dianji' data-num='1' data-ida={$arr['id']} href='#' data-idb="id_{$arr['id']}">账号:{$arr['userid']},团队人数：{$count}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <input type='hidden' data-action='hidden' value=''>
+            <script src="__PUBLIC__/js/jquery-3.4.0.min.js"></script>
+            <script src="__PUBLIC__/layer/layer.js"></script>
+            <script type="text/javascript">
+                 aa = function(id){
+                     /*向下查询*/
+                     //var load = layer.load();
+                     var num = $("a[data-idb='id_"+id+"']").data('num');
+                     if(num == 1){
+                         $.ajax({
+                             url:"{:url('user/treelist')}",
+                             data:{id:id},
+                             type:'post',
+                             dataType:'json',
+                             success:function(res){
+                                 //var load1 = layer.load();
+                                 if(res.num==0){
+                                     //layer.close(load1);
+                                     layer.msg('下面已经没人啦 ，不要再点啦');
+                                     //修改状态 防止AJAX多次执行
+                                     $("a[data-idb='id_"+id+"']").data('num',3);
+                                     return false;
+                                 }
+                                 if(res.num>=1){
+                                     for(var i=0;i<res.num;i++){
+                                         var html = "<li><img src='__STATIC__/admin/img/11.png' style=\"width:25px;height:20px\" ><a style='font-size:20px;display:flex' onclick='aa("+res.data[i]['id']+")'  data-idb='id_"+res.data[i]['id']+"' data-action='dianji' data-num='1' data-ida="+res.data[i]['id']+" href='#' ><span> 账号 : </span><span style='color:red;'>"+res.data[i]['userid']+"</span><span>-注册日期 : "+res.data[i]['time']+"</span><span>-团队人数 : "+res.data[i]['count']+"</span></a></li>,";
+                                         var htmlstr = html + htmlstr;
+                                     }
+                                     //修改bug 删除字符串后 undefined
+                                     var htmlArr = htmlstr.split(',');
+                                     htmlArr.splice($.inArray('undefined',htmlArr),1);
+                                     htmlstr = htmlArr.join('');
+                                     //修改状态 防止AJAX多次执行
+                                     $("a[data-idb='id_"+id+"']").data('num',0);
+                                     //hidden 清空
+                                     $("input[data-action='hidden']").val('');
+                                     //hidden 赋值
+                                     $("input[data-action='hidden']").val(htmlstr);
+                                     var html = $("input[data-action='hidden']").val();
+                                     $("a[data-idb='id_"+id+"']").after("<ul style='list-style: outside;margin-left:50px;' data-action='0'>"+html+"</ul>");
+                                 }
+                                 //layer.close(load1);
+                             }
+                         });
+                         //layer.close(load);
+                         return false;
+                     }
+                     if(num == 0){
+                         $("a[data-idb='id_"+id+"']").next().css({display:"none"});
+                         //修改状态
+                         $("a[data-idb='id_"+id+"']").data('num',4);
+                     }
+                     if(num == 4){
+                         $("a[data-idb='id_"+id+"']").next().css({display:"block"});
+                         //修改状态
+                         $("a[data-idb='id_"+id+"']").data('num',0);
+                     }
+                     //layer.closeAll();
+                     if(num == 3){
+                         //layer.close(load);
+                         layer.msg('下面已经没人啦 ，不要再点啦');
+                         return false;
+                     }
+                 }
+                /*查询*/
+                $("input[data-action='select']").click(function(){
+                    //var load = layer.load();
+                    var data = $("input[data-action='data']").val();
+
+                    $.ajax({
+                        url:"{:url('ffadmin/user/treelist1')}",
+                        data:{data:data},
+                        type:"post",
+                        dataType:'json',
+                        success:function(res){
+                            $('#qwe').empty();
+                            var html = "<a style='font-size:20px;display:flex' onclick='a("+res.msg['id']+")'  data-idb='id_"+res.msg['id']+"' data-action='dianji' data-num='1' data-ida="+res.msg['id']+" href='#' ><img style=\"width:25px;height:20px\" ><span> 账号 : </span><span style='color:red;'>"+res.msg['userid']+"</span><span>-注册日期 : "+res.msg['time']+"</span><span>-团队人数 : "+ res.msg['count']+"</span></a>"
+                            $('#qwe').html(html);
+                            //layer.close(load);
+                        }
+
+                    });
+                })
+                /*返回*/
+                $('#shua').click(function() {
+                    location.href = "{:url('ffadmin/user/treelist')}";
+                })
+            </script>
+            <!--操作说明 BEGIN-->
+
+            </div>
+        </section>
+    </section>
+
+
+
+</section>
+{/block}

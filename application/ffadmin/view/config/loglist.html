@@ -1,0 +1,129 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+        <section class="wrapper">
+            <!--面包屑导航 BEGIN-->
+            <ul class="breadcrumb">
+                <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+                <li><a href="javascript:;" id="parent_menu">系统管理</a></li>
+                <li class="active" id="son_menu">操作日志</li>
+            </ul>
+            <!--面包屑导航 END-->
+
+            <!--操作说明 BEGIN-->
+            <div class="alert alert-success alert-block fade in">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+                </button>
+                <h4>
+                    <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                    操作说明！
+                </h4>
+                <p>系统的一些操作日志记录，可以从这里跟踪每一条数据的踪迹</p>
+            </div>
+            <!--操作说明 END-->
+            <!--搜索区域 BEGIN-->
+            <div class="demoTable">
+                <form style="display: inline" id="search"><span><div style="display: inline-block;margin-top: 0.2rem">搜索操作表名：
+                    <div class="layui-inline">
+                    <input class="layui-input" name="aa_table_name" id="" +cols[i]['field']+""="" autocomplete="off" data-tablename="tablename" value="{$tableName}">
+                    </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索IP：
+                    <div class="layui-inline">
+                    <input class="layui-input" name="aa_ip" id="" +cols[i]['field']+""="" autocomplete="off" data-ip="ip" value="{$ip}">
+                    </div><span style="margin:0 2rem"></span></div></span></form>
+                <button class="layui-btn" data-type="search">搜索</button>
+                <button class="layui-btn" data-type="clear">清空</button>
+            </div>
+            <!--搜索区域 END-->
+
+            <!--表格主体 BEGIN-->
+            <table class="layui-hide" id="test" lay-filter="test1"></table>
+            <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+                <div class="layui-table-tool">
+                    <div class="layui-table-tool-temp">
+                        <div class="layui-btn-container"> </div>
+                    </div>
+                    <div class="layui-table-tool-self">
+                    </div>
+                </div>
+                <div class="layui-table-box">
+                    <div class="layui-table-body">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th data-field="aa_id" data-key="2-0-0" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-0"><span>ID</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                                <th data-field="aa_table_name" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>操作表名</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                                <th data-field="aa_action" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2"><span>操作类型</span></div></th><th data-field="aa_uid" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"><span>操作前台用户</span></div></th>
+                                <th data-field="aa_admin_uid" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4"><span>操作后台用户</span></div></th>
+                                <th data-field="aa_ip" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5"><span>IP</span></div></th>
+                                <th data-field="aa_data" data-key="2-0-6" class=""><div class="layui-table-cell laytable-cell-2-0-6"><span>数据</span></div></th>
+                                <th data-field="aa_create_time" data-key="2-0-7" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-7"><span>添加时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="result" id="vo"}
+                            <tr data-index="0" class="">
+                                <td data-field="aa_id" data-key="2-0-0" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                                <td data-field="aa_table_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">{$vo.t_name}</div></td>
+                                <td data-field="aa_action" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2">{$vo.type}</div></td>
+                                <td data-field="aa_uid" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3">{$vo.userid}</div></td>
+                                <td data-field="aa_admin_uid" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">{$vo.admin}</div></td>
+                                <td data-field="aa_ip" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.ip}</div></td>
+                                <td data-field="aa_data" data-key="2-0-6" class=""><div class="layui-table-cell laytable-cell-2-0-6">{$vo.data}</div></td>
+                                <td data-field="aa_create_time" data-key="2-0-7" class=""><div class="layui-table-cell laytable-cell-2-0-7">{$vo.create_time|date='Y-m-d H:i:s',###}</div></td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {$result->render()}
+                <style>
+                    .laytable-cell-2-0-0{ width: 100px; }
+                    /* .laytable-cell-2-0-1{  }
+                    .laytable-cell-2-0-2{  }
+                    .laytable-cell-2-0-3{  }
+                    .laytable-cell-2-0-4{  }
+                    .laytable-cell-2-0-5{  } */
+                    .laytable-cell-2-0-6{ width: 300px; }
+                    /* .laytable-cell-2-0-7{  } */
+                </style>
+            </div>
+            <!--表格主体 END-->
+
+            <!--右侧固定栏 BEGIN-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--右侧固定栏 END-->
+
+            <script type="text/html" id="switchTpl">
+                <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+            </script>
+
+            <!--表格自定义按钮 BEGIN-->
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+
+                </div>
+            </script>
+            <!--表格自定义按钮 END-->
+
+        </section>
+    </section>
+
+    <script type="text/javascript" src="__STATIC__/admin/js/table.js"></script>
+</section>
+<script>
+    $("button[data-type='search']").click(function(){
+        var tableName = $("input[data-tablename='tablename']").val();
+        var ip = $("input[data-ip='ip']").val();
+        location.href="{:url('ffadmin/config/loglist')}?tableName=" + tableName + "&&ip="+ip;
+    });
+
+    $("button[data-type='clear']").click(function(){
+        location.href = "{:url('ffadmin/config/loglist')}";
+    })
+</script>
+
+{/block}

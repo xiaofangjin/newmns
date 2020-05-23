@@ -1,0 +1,202 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+</style>
+{/block}
+{block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">交易大厅管理</a></li>
+            <li class="active" id="son_menu">未匹配订单</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>未匹配订单列表</p>
+        </div>
+        <!--操作说明 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline" id="search">
+                <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索卖家：
+                    <div class="layui-inline">
+                    <input class="layui-input"  id=""  data-userid="userid" value="{$selluserid}">
+                    </div></span></form>
+            <button class="layui-btn" data-type="search" type="button">搜索</button>
+            <button class="layui-btn" data-type="clear" type="button">清空</button>
+        </div>
+        <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test">
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp"></div>
+                <div class="layui-table-tool-self">
+                    <!-- <div class="layui-inline" title="筛选列" lay-event="LAYTABLE_COLS"><i class="layui-icon layui-icon-cols"></i></div>
+                    <div class="layui-inline" title="导出" lay-event="LAYTABLE_EXPORT"><i class="layui-icon layui-icon-export"></i></div>
+                    <div class="layui-inline" title="打印" lay-event="LAYTABLE_PRINT"><i class="layui-icon layui-icon-print"></i></div> -->
+                </div>
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th data-field="rs_no" data-key="2-0-0" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-0"><span>订单ID</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="u.u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1"><span>买家</span></div></th>
+                            <th data-field="rs_money" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"><span>账户内水滴</span></div></th>
+                            <th data-field="rs_money" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"><span>等级</span></div></th>
+                            <th data-field="rs_status" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4"><span>状态</span></div></th>
+                            <th data-field="rs_buy_time" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5"><span>时间</span></div>
+                            </th>
+                            <th data-field="6" data-key="2-0-6" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"><span>操作</span></div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <!-- </table>
+                    </div>
+                    <div class="layui-table-body layui-table-main">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                        {volist name="deal" id="vo"}
+                        <tr data-index="0" >
+                            <td data-field="rs_no" data-key="2-0-0" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                            <td data-field="u.u_name" data-key="2-0-1" data-content="" class=""><div class="layui-table-cell laytable-cell-2-0-1"> <p>会员账号:{$vo.sell_userid}</p> <p>手机号:{$vo.phone}</p> </div></td>
+                            <td data-field="rs_money" data-key="2-0-3" data-content="1000.00" class=""><div class="layui-table-cell laytable-cell-2-0-3"> <p>{$vo.money}</p> </div></td>
+                            <td data-field="rs_money" data-key="2-0-3" data-content="1000.00" class=""><div class="layui-table-cell laytable-cell-2-0-3"> <p>{$vo.level}</p> </div></td>
+
+                            <td data-field="rs_status" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">未匹配</div></td>
+                            <td data-field="rs_buy_time" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.create_time}</div></td>
+                            <td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special">
+                                <div class="layui-table-cell laytable-cell-2-0-6">
+                                    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delorder('{$vo.id}')">删除</a>-->
+                                    {if condition="$vo.status==0"}
+                                    <a class="layui-btn layui-btn-success layui-btn-xs" onclick="editStyle('{$vo.id}')">激活</a>
+                                    {else}
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="editStyle('{$vo.id}')">冻结</a>
+                                    {/if}
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$deal->render()}
+                <style>
+                    .laytable-cell-2-0-0{ width: 150px; }
+                    /* .laytable-cell-2-0-1{  }
+                    .laytable-cell-2-0-2{  }
+                    .laytable-cell-2-0-3{  }
+                    .laytable-cell-2-0-4{  }
+                    .laytable-cell-2-0-5{  } */
+                    .laytable-cell-2-0-6{ width: 150px; }
+                </style>
+            </div>
+            <!--表格主体 END-->
+            <script type="text/javascript">
+                $("button[data-type='search']").click(function(){
+                    var selluserid = $("input[data-userid='userid']").val();
+                    location.href="{:url('ffadmin/receive/spipeilist')}?selluserid=" + userid;
+                });
+
+                $("button[data-type='clear']").click(function(){
+                    location.href="{:url('ffadmin/receive/spipeilist')}";
+                });
+                delorder = function(id){
+                    layer.confirm('您确认要删除？删除后无法恢复！', {
+                        btn: ['确认','取消'] //按钮
+                    }, function(){
+                        $.ajax({
+                            type:'post',
+                            dataType:'json',
+                            url:"{:url('ffadmin/receive/deleteOrder')}",
+                            data:{id:id},
+                            success:function(res){
+                                if (res.con==1) {
+                                    layer.msg('删除成功',function(){
+                                        window.location.reload();
+                                    });
+                                }
+                                if (res.con==0) {
+                                    layer.msg('删除失败');
+                                }
+                            }
+                        });
+                    }, function(){
+                        layer.msg('取消成功');
+                    });
+                }
+                editStyle = function(id){
+                    $.ajax({
+                        type:'post',
+                        dataType:'json',
+                        url:"{:url('ffadmin/receive/seditStatus')}",
+                        data:{id:id},
+                        success:function(res){
+                            if (res.con==1) {
+                                layer.msg(res.message,function(){
+                                    window.location.reload();
+                                });
+                            }
+                            if (res.con==0) {
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                }
+            </script>
+            <!--右侧固定栏 BEGIN-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" onclick='delrecharge("{{d.rs_id}}");'>删除</a>
+            </script>
+            <!--右侧固定栏 END-->
+
+            <script type="text/html" id="switchTpl">
+                <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+            </script>
+
+            <script type="text/html" id="type">
+
+                <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                    {{d.u_type}}
+                </a>
+
+                <!--<a href="#" ></a>-->
+            </script>
+
+
+    </section>
+</section>
+
+<script>
+
+
+
+</script>
+
+
+<script type="text/javascript" src="__JS__/table.js"></script>
+
+
+</section>
+
+{/block}

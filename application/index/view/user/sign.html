@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+		<link rel="stylesheet" href="__STATICindex__/css/dialog.css">
+		<script src="__STATICindex__/js/layer/layer.js"></script>
+	<style>
+		html{background:#000002;}
+		.forget .flex-list a{
+			width: 30%;
+			padding: 5px 10px;
+		}
+		
+	</style>
+	</head>
+	<body class="loginBg">
+		<div id="landing">
+			<div class="header0"></div>
+			<div>
+				<h4 class="title" style="margin-bottom: 35px;">
+					<img src="__STATICindex__/img/bshlogo.png" alt="">
+				</h4>
+				<div class="landing_box">
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/nc.png" alt=""></span>
+						<input name="phone" placeholder="请输入昵称" type="text" id="name">
+					</div>
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/dh.png" alt=""></span>
+						<input name="phone" placeholder="请输入手机号码" type="text" id="phone">
+					</div>
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/yzm.png" alt=""></span>
+						<input name="phone" placeholder="请输入短信验证码" type="text" id="code">
+						<button class="huoqu" style="border: 1px solid yellow">点击获取</button>
+					</div>
+					{if condition="$data"}
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/dh.png" alt=""></span>
+						<input name="phone" value="{$data|substr=5}" type="text"  readonly>
+						<input name="phone" value="{$data}" type="hidden" id="fauesrid" readonly>
+					</div>
+					{else}
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/dh.png" alt=""></span>
+						<input name="phone" placeholder="请输入推荐人账号" type="text" id="fauesrid">
+					</div>
+					{/if}
+					<div class="landing_ipt">
+						<span><img src="__STATICindex__/img/yzm.png" alt=""></span>
+						<input style="width: 30%;" class="input-val" name="code" placeholder="请输入验证码" type="text">
+						<canvas id="canvas" width="100" height="40"></canvas>
+					</div>
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/mm.png" alt=""></span>
+						<input name="password" placeholder="请输入登录密码" type="password" id="pwd">
+					</div>
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/mm.png" alt=""></span>
+						<input name="password" placeholder="请确认登录密码" type="password" id="pwd2">
+					</div>
+					<div class="landing_ipt register_phone">
+							<span><img src="__STATICindex__/img/mm.png" alt=""></span>
+							<input name="password" placeholder="请输入支付密码" type="password" id="pwdH">
+					</div>
+					<div class="landing_ipt register_phone">
+						<span><img src="__STATICindex__/img/mm.png" alt=""></span>
+						<input name="password" placeholder="请确认支付密码" type="password" id="pwdH2">
+					</div>
+				</div>
+
+				<div class="landing_btn">
+					<button type="button" class="btn"  data-action="yes">注册</button>
+				</div>
+				<div class="forget flex-box">
+					<div class="flex-list">
+						<a href="{:url('index/user/login')}">返回登录</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<script src="__STATICindex__/js/zepto.min.js"></script>
+	    <script src="__STATICindex__/js/dialog.js"></script>
+		<script type="text/javascript">
+			//获取短信验证码
+            $(function() {
+                var countdown = 60;
+                function settime() {
+                    if (countdown == 0) {
+                        $(".huoqu").attr("disabled", false);
+                        $(".huoqu").text("发送");
+                        countdown = 300;
+                        return;
+                    } else {
+                        $(".huoqu").attr("disabled", true);
+                        $(".huoqu").text(countdown);
+                        countdown--;
+                    }
+                    setTimeout(function () {
+                        settime()
+                    }, 1000);
+                }
+                $('.huoqu').click(function () {
+                    var phone = $("#phone").val();
+                    var myreg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[012345678]|18[0-9]|14[57]|19[0-9]|16[0-9])[0-9]{8}$/;
+                    if (phone == '') {
+                        layer.msg('请输入手机号');
+                        return false;
+                    }
+                    //var load = layer.load();
+                    if (myreg.test(phone)) {
+                        $.ajax({
+                            url: "{:url('index/user/code')}",
+                            data: {phone: phone, status: 2},
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (res) {
+                                //layer.close(load);
+                                layer.msg(res.msg);
+                                settime();
+                            }
+                        });
+                    } else {
+                        layer.msg('手机号非法!');
+                    }
+                })
+            })
+
+            /*登录验证*/
+            $(function(){
+                var show_num = [];
+                draw(show_num);
+
+                $("#canvas").on('click',function(){
+                    draw(show_num);
+                })
+
+                $("button[data-action='yes']").click(function(){
+                    var name = $("#name").val();
+                    var phone = $("#phone").val();
+                    var code = $('#code').val();
+                    var pwd = $("#pwd").val();
+                    var pwd2 = $("#pwd2").val();
+                    var pwdH = $('#pwdH').val();
+                    var pwdH2 = $('#pwdH2').val();
+
+                    var fuesrid = $("#fauesrid").val();
+                    if(name == ''){
+                        layer.msg('请输入昵称');
+                        return false;
+					}
+                    if(phone==''){
+                        layer.msg('请输入手机号');
+                        return false;
+                    }
+                    if(code==''){
+                        layer.msg('请输入短信验证码');
+                        return false;
+                    }
+                    if(pwd==''){
+                        layer.msg('请输入登录密码');
+                        return false;
+                    }
+
+                    if(pwd2==''){
+                        layer.msg('请确认登录密码');
+                        return false;
+                    }
+                    if(pwd!=pwd2){
+                        layer.msg('两次登录密码不一致，请重新输入');
+                        return false;
+                    }
+                    if(pwdH==''){
+                        layer.msg('请输入支付密码');
+                        return false;
+                    }
+
+                    if(pwdH2==''){
+                        layer.msg('请确认支付密码');
+                        return false;
+                    }
+                    if(pwdH!=pwdH2){
+                        layer.msg('两次支付密码不一致，请重新输入');
+                        return false;
+                    }
+
+                    if(fuesrid==''){
+                        layer.msg('请输入推荐人账号');
+                        return false;
+                    }
+                    var val = $(".input-val").val().toLowerCase();
+                    var num = show_num.join("");
+                    if(val==''){
+                        layer.msg('请输入验证码！');
+                        return false
+                    }else if(val == num){
+                        $(".input-val").val('');
+                        draw(show_num);
+                        var load = layer.load();
+                        $.ajax({
+                            data:{phone:phone,pwd:pwd,pwdH:pwdH,fuesrid:fuesrid,name:name,code:code},
+                            type:"post",
+                            dataType:"json",
+                            url:"{:url('index/user/doSign')}",
+                            success:function(res){
+                                layer.close(load);
+                                if (res.con==1){
+                                    layer.msg(res.message,function(){
+                                        location.href="{:url('index/user/login')}";
+                                    })
+                                }else{
+                                    layer.msg(res.message);
+                                }
+                            }
+                        });
+                    }else{
+                        layer.msg('验证码错误！请重新输入！');
+                        $(".input-val").val('');
+                        draw(show_num);
+                    }
+                })
+            })
+		 
+		 function draw(show_num) {
+			 var canvas_width=$('#canvas').width();
+			 var canvas_height=$('#canvas').height();
+			 var canvas = document.getElementById("canvas");//获取到canvas的对象，演员
+			 var context = canvas.getContext("2d");//获取到canvas画图的环境，演员表演的舞台
+			 canvas.width = canvas_width;
+			 canvas.height = canvas_height;
+			 var sCode = "A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0";
+			 var aCode = sCode.split(",");
+			 var aLength = aCode.length;//获取到数组的长度
+			 
+			 for (var i = 0; i <= 3; i++) {
+				 var j = Math.floor(Math.random() * aLength);
+				 var deg = Math.random() * 30 * Math.PI / 180;
+				 var txt = aCode[j];
+				 show_num[i] = txt.toLowerCase();
+				 var x = 10 + i * 20;
+				 var y = 20 + Math.random() * 8;
+				 context.font = "bold 23px 微软雅黑";
+		 
+				 context.translate(x, y);
+				 context.rotate(deg);
+		 
+				 context.fillStyle = randomColor();
+				 context.fillText(txt, 0, 0);
+		 
+				 context.rotate(-deg);
+				 context.translate(-x, -y);
+			 }
+			 for (var i = 0; i <= 5; i++) {
+				 context.strokeStyle = randomColor();
+				 context.beginPath();
+				 context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+				 context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+				 context.stroke();
+			 }
+			 for (var i = 0; i <= 30; i++) {
+				 context.strokeStyle = randomColor();
+				 context.beginPath();
+				 var x = Math.random() * canvas_width;
+				 var y = Math.random() * canvas_height;
+				 context.moveTo(x, y);
+				 context.lineTo(x + 1, y + 1);
+				 context.stroke();
+			 }
+		 }
+		 
+		 function randomColor() {
+			 var r = Math.floor(Math.random() * 256);
+			 var g = Math.floor(Math.random() * 256);
+			 var b = Math.floor(Math.random() * 256);
+			 return "rgb(" + r + "," + g + "," + b + ")";
+		 }
+		 </script>
+	
+
+</body></html>

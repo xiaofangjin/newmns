@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+	</head>
+	<style>
+	
+
+	</style>
+	<body class="wallet setBox">
+		<div id="app">
+			<div>
+				<div class="header headerw">
+					<a href="javascript:history.go(-1);" class="icon-left">
+						<img src="__STATICindex__/img/left.png" alt="">
+					</a>
+					<h1>系统消息</h1>
+				</div>
+				<div class="shellInfo" >
+					<div class="title">
+						<h2 style="color: #fff;">{$detail.title}</h2>
+						<p class="time">{$detail.create_time}</p>
+						<p>{$detail.content}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(".size").css("font-size", $("body").width() * 0.0625 + "px")
+		</script>
+	
+</body></html>

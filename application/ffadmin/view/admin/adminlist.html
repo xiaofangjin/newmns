@@ -1,0 +1,309 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__IMG__/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">权限管理</a></li>
+            <li class="active" id="son_menu">管理员管理</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__IMG__/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__IMG__/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>后台用户管理</p>
+        </div>
+        <!--操作说明 END-->
+        <!--添加模态层 BEGIN-->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h4 class="modal-title">添加管理员</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="post" action="{:url('ffadmin/admin/addAdmin')}" >
+                            <div class="form-group">
+                                <label for="au_name">用户名</label>
+                                <input type="text" class="form-control" id="au_name" name="au_name" maxlength="30" placeholder="请输入用户名">
+                            </div>
+                            <div class="form-group">
+                                <label for="au_nick_name">姓名</label>
+                                <input type="text" class="form-control" id="au_nick_name" name="au_nick_name" maxlength="30" placeholder="请输入姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="au_pwd">密码</label>
+                                <div class="password">
+                                    <input type="password" class="form-control" id="au_pwd" name="au_pwd" placeholder="请输入密码">
+                                    <span class="glyphicon glyphicon-eye-close form-control-feedback"></span> <!--小图标元素-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="au_pwd2">重复密码</label>
+                                <div class="password">
+                                    <input type="password" class="form-control" id="au_pwd2" name="au_pwd2" placeholder="请再次输入密码">
+                                    <span class="glyphicon glyphicon-eye-close form-control-feedback"></span> <!--小图标元素-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="au_ar_id">所属角色</label>
+                                <select class="form-control m-bot15" id="au_ar_id" name="au_ar_id">
+                                    <option value="1">超级管理员</option>
+                                    <option value="2">普通管理员</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="au_tel">联系方式</label>
+                                <input type="text" class="form-control" id="au_tel" name="au_tel" placeholder="请输入联系方式">
+                            </div>
+                            <div class="form-group">
+                                <label for="au_email">Email</label>
+                                <input type="email" class="form-control" id="au_email" name="au_email" placeholder="请输入Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="au_intro">备注</label>
+                                <textarea class="form-control" style="resize:none;" id="au_intro" name="au_intro" placeholder="请输入备注"></textarea>
+                            </div>
+                            <input type="hidden" name="admin_id" id="admin_id" value="">
+                            <button type="submit" class="btn btn-default" id="submit" onclick="">添加</button>
+                            <input type="reset" name="reset" style="display: none;">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加模态层 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline" id="search"><span><div style="display: inline-block;margin-top: 0.2rem">搜索用户名：
+            <div class="layui-inline">
+            <input class="layui-input" name="au_name"  autocomplete="off" data-adminid="adminid" value="{$adminid}">
+            </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索姓名：
+            <div class="layui-inline">
+            <input class="layui-input" name="au_nick_name"  autocomplete="off" data-name="name" value="{$name}">
+            </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索手机号：
+            <div class="layui-inline">
+            <input class="layui-input" name="au_tel"  autocomplete="off" data-phone="phone" value="{$phone}">
+            </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索Email：
+            <div class="layui-inline">
+            <input class="layui-input" name="au_email"  autocomplete="off" data-email="email" value="{$email}">
+            </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索备注：
+            <div class="layui-inline">
+            <input class="layui-input" name="au_intro"  autocomplete="off" data-comm="comm" value="{$comm}">
+            </div><span style="margin:0 2rem"></span></div></span></form>
+            <button class="layui-btn" data-type="search">搜索</button>
+            <button class="layui-btn" data-type="clear">清空</button>
+        </div>
+        <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test">
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp">
+                    <div class="layui-btn-container">
+                        <a href="adminlist.html#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add();"> 添加管理员 </a>
+                    </div>
+                </div>
+                <div class="layui-table-tool-self">
+                    <!-- <div class="layui-inline" title="筛选列" lay-event="LAYTABLE_COLS"><i class="layui-icon layui-icon-cols"></i></div>
+                    <div class="layui-inline" title="导出" lay-event="LAYTABLE_EXPORT"><i class="layui-icon layui-icon-export"></i></div>
+                    <div class="layui-inline" title="打印" lay-event="LAYTABLE_PRINT"><i class="layui-icon layui-icon-print"></i></div> -->
+                </div>
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th data-field="au_id" data-key="2-0-0" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-0"><span>ID</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="au_name" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>用户名</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="au_ar_name" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2"><span>所属角色</span></div></th>
+                            <th data-field="au_nick_name" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"><span>姓名</span></div></th>
+                            <th data-field="au_tel" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4"><span>手机号</span></div></th>
+                            <th data-field="au_email" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5"><span>Email</span></div></th>
+                            <th data-field="au_intro" data-key="2-0-6" class=""><div class="layui-table-cell laytable-cell-2-0-6"><span>备注</span></div></th>
+                            <th data-field="au_is_frozen" data-key="2-0-20" class=""><div class="layui-table-cell laytable-cell-2-0-20"><span>激活/冻结账户</span></div></th>
+                            <th data-field="au_create_time" data-key="2-0-8" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-8"><span>添加时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="9" data-key="2-0-9" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-9"><span>操作</span></div></th>
+                        </tr>
+                        </thead>
+                        <!-- </table>
+                    </div>
+                    <div class="layui-table-body layui-table-main">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                        {volist name="admins" id="vo"}
+                        <tr data-index="0" class="">
+                            <td data-field="au_id" data-key="2-0-0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div>
+                            </td><td data-field="au_name" data-key="2-0-1" class="">
+                            <div class="layui-table-cell laytable-cell-2-0-1">{$vo.adminid}</div>
+                        </td>
+                            {if condition="$vo.auth==1"}
+                            <td data-field="au_ar_name" data-key="2-0-2" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">超级管理员</div></td>
+                            {else}
+                            <td data-field="au_ar_name" data-key="2-0-2" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">普通管理员</div></td>
+                            {/if}
+                            <td data-field="au_nick_name" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3">{$vo.name}</div></td>
+                            <td data-field="au_tel" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">{$vo.phone}</div></td>
+                            <td data-field="au_email" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.email}</div></td>
+                            <td data-field="au_intro" data-key="2-0-6" class=""><div class="layui-table-cell laytable-cell-2-0-6">{$vo.comment}</div></td>
+                            {if condition="$vo.status==0"}
+                            <td data-field="au_is_frozen" data-key="2-0-7" data-content="0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-7"> <span style="pointer-events: auto; cursor: pointer;" class="label label-success label-mini" onclick="jihuo('{$vo.id}');">激活</span> </div>
+                            </td>
+                            {else}
+                            <td data-field="au_is_frozen" data-key="2-0-7" data-content="0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-7"> <span style="pointer-events: auto; cursor: pointer;" class="label label-danger label-mini" onclick="dongjie('{$vo.id}');">冻结</span> </div>
+                            </td>
+                            {/if}
+                            <td data-field="au_create_time" data-key="2-0-8" class=""><div class="layui-table-cell laytable-cell-2-0-8">{$vo.time}</div></td><td data-field="9" data-key="2-0-9" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-9"> <a href="adminlist.html#myModal" data-toggle="modal" class="layui-btn layui-btn-xs" lay-event="edit" onclick="bbjj('{$vo.id}')">编辑</a> <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" onclick="delAdmin('{$vo.id}')">删除</a> </div></td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .laytable-cell-2-0-0{ width: 100px; }
+            /* .laytable-cell-2-0-1{  }
+            .laytable-cell-2-0-2{  }
+            .laytable-cell-2-0-3{  }
+            .laytable-cell-2-0-4{  }
+            .laytable-cell-2-0-5{  }
+            .laytable-cell-2-0-6{  } */
+            .laytable-cell-2-0-7{ width: 85px; }
+            /* .laytable-cell-2-0-8{  } */
+            .laytable-cell-2-0-9{ width: 150px; }
+        </style>
+        </div>
+        <!--表格主体 END-->
+        <script type="text/javascript">
+            jihuo = function(id){
+                $.ajax({
+                    type: "POST", // 用POST方式传输
+                    dataType:'json',
+                    url: "{:url('ffadmin/admin/editStatus')}", // 目标地址
+                    data:{id:id,status:0},
+                    success: function(res) {
+                        if (res.con ==1) {
+                            layer.msg(res.message,function(){
+                                window.location.reload();
+
+                            })
+                        }else{
+                            layer.msg('激活失败');
+                        }
+                    }
+                });
+            }
+            dongjie = function(id){
+                $.ajax({
+                    type: "POST", // 用POST方式传输
+                    dataType:'json',
+                    url: "{:url('ffadmin/admin/editStatus')}", // 目标地址
+                    data:{id:id,status:1},
+                    success: function(res) {
+                        if (res.con ==1) {
+                            layer.msg(res.message,function(){
+                                window.location.reload();
+                            })
+                        }else{
+                            layer.msg('冻结失败');
+                        }
+                    }
+                });
+            }
+            bbjj = function(id){
+                $('#admin_id').val(id);
+                $.ajax({
+                    type: "POST", // 用POST方式传输
+                    dataType:'json',
+                    url: "{:url('ffadmin/admin/edit')}", // 目标地址
+                    data:{id:id},
+                    success: function(res) {
+                        $('#au_name').val(res.admin['adminid']);
+                        $('#au_nick_name').val(res.admin['name']);
+                        $('#au_tel').val(res.admin['phone']);
+                        $('#au_email').val(res.admin['email']);
+                        $('#au_intro').val(res.admin['comment']);
+                        $("#au_ar_id").find("option[value='"+res.admin['auth']+"']").attr("selected",true);
+                    }
+                });
+            }
+
+            delAdmin = function(id){
+                $.ajax({
+                    type:'post',
+                    dataType:'json',
+                    url:"{:url('ffadmin/admin/delete')}",
+                    data:{id:id},
+                    success:function(res){
+                        if (res.con==1) {
+                            layer.msg('删除成功',function(){
+                                window.location.reload();
+                            });
+                        }
+                        if(res.con==0){
+                            layer.msg('删除失败');
+                        }
+                    }
+                });
+            }
+            $("button[data-type='search']").click(function(){
+                var adminid = $("input[data-adminid='adminid']").val();
+                var name = $("input[data-name='name']").val();
+                var phone = $("input[data-phone='phone']").val();
+                var email = $("input[data-email='email']").val();
+                var comm = $("input[data-comm='comm']").val();
+                location.href="{:url('ffadmin/admin/adminList')}?adminid=" + adminid + "&&name=" + name + "&&phone=" + phone + "&&email="+email + "&&comm="+comm;
+            });
+            $("button[data-type='clear']").click(function(){
+                location.href="{:url('ffadmin/admin/adminList')}";
+            });
+        </script>
+        <!--右侧固定栏 BEGIN-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <!--右侧固定栏 END-->
+
+        <script type="text/html" id="switchTpl">
+            <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.au_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.au_id}}');">{{ d.au_is_frozen == 0 ? '激活' : '冻结' }}</span>
+        </script>
+
+        <!--表格自定义按钮 BEGIN-->
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <a href="#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add();">
+                    添加管理员
+                </a>
+            </div>
+        </script>
+        <!--表格自定义按钮 END-->
+
+    </section>
+</section>
+
+<script type="text/javascript" src="__STATIC__/admin/js/table.js"></script>
+
+
+
+</section>
+
+{/block}

@@ -1,0 +1,128 @@
+{extend name="public/base"} {block name="content"}
+    <section id="main-content">
+        <section class="wrapper">
+            <!--面包屑导航 BEGIN-->
+            <ul class="breadcrumb">
+                <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px"
+                                                                   src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+                <li><a href="javascript:;" id="parent_menu">用户管理</a></li>
+                <li class="active" id="son_menu">团队管理</li>
+            </ul>
+            <!--面包屑导航 END-->
+
+            <!--操作说明 BEGIN-->
+            <div class="alert alert-success alert-block fade in">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+                </button>
+                <h4>
+                    <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                    操作说明！
+                </h4>
+                <p>系统所有用户的权限树</p>
+            </div>
+            <!--操作说明 END-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<h4 class="modal-title">团队管理</h4>-->
+                    <form class="form-inline" style="text-align: right">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="模糊查询">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                    </form>
+                </div>
+                <div class="modal-body">
+                    <button class="layui-btn layui-btn-success" onclick="openAll();">展开所有节点</button>
+                    <button class="layui-btn layui-btn-warm" onclick="closeAll();">合并所有节点</button>
+                    <button class="layui-btn layui-btn-danger" onclick="asyncAll();">后台加载所有节点</button>
+                    <span id="helpBlock" class="help-block text-warning" style="margin: 1.5rem 0"> <i
+                            class="icon-warning-sign"></i> 用户超过2000人后，慎用 "后台加载所有节点" 按钮 </span>
+                    <hr>
+                    <div id="userTree" class="ztree">
+                        <ul>
+                            <li id="children">
+                                <a onclick="aa({$parent['id']})" data-
+                                   action='dianji' data-num='1' data-ida={$parent['id']} href='#' data-idb="id_{$parent['id']}">
+                                    账号:{$parent['userid']}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <input type='hidden' data-action="hidden" value='' id="aabbcc">
+
+                </div>
+            </div>
+        </section>
+    </section>
+    <style>
+        .ztree i {
+            font-family: FontAwesome;
+            margin-right: 0.5rem;
+            color: #FF6C60;
+        }
+    </style>
+
+
+</section>
+<script>
+
+    aa = function(id) {
+        var load = layer.load();
+        var num = $("a[data-idb='id_" + id + "']").data('num');
+        if (num == 1) {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: "{:url('ffadmin/user/testTree')}",
+                data: {id: id},
+                success: function (res) {
+                    var load1 = layer.load();
+                    if (res.num == 0) {
+                        layer.close(load1);
+                        layer.msg('已无子级');
+                        //修改状态 防止AJAX多次执行
+                        $("a[data-idb='id_" + id + "']").data('num', 3);
+                        return false;
+                    } else if (res.num >= 1) {
+                        for(var i=0;i<res.num;i++){
+                            var html = "<li><a onclick=\"aa("+res.data[i]['id']+")\" data-action='dianji' data-num='1' data-ida="+res.data[i]['id']+" href='#' data-idb=\"id_"+res.data[i]['id']+"\"> 账号:"+res.data[i]['userid']+"</a></li>,";
+                            var htmlstr = html + htmlstr;
+                        }
+                        //修改bug 删除字符串后 undefined
+                        var htmlArr = htmlstr.split(',');
+                        var bb = $.inArray('undefined',htmlArr);
+                        var aa = htmlArr.splice($.inArray('undefined',htmlArr),1);
+                        htmlstr = htmlArr.join('');
+                        //修改状态 防止AJAX多次执行
+                        $("a[data-idb='id_" + id + "']").data('num', 0);
+                        $("input[data-action='hidden']").val('');
+                        $("input[data-action='hidden']").val(htmlstr);
+                        var html = $("input[data-action='hidden']").val();
+                        $("a[data-idb='id_"+id+"']").after("<ul style='list-style: outside;margin-left:50px;' data-action='0'>"+html+"</ul>");
+                    }
+                    layer.close(load1);
+                }
+            });
+            layer.close(load);
+            return false;
+        }
+        if (num==0){
+            $("a[data-idb='id_" + id + "']").next().css({display:"none"});
+            $("a[data-idb='id_" + id + "']").data('num',4);
+        }
+        if (num==0){
+            $("a[data-idb='id_" + id + "']").next().css({display:"block"});
+            $("a[data-idb='id_" + id + "']").data('num',0);
+        }
+        layer.closeAll();
+        if (num==3){
+            layer.close(load);
+            layer.msg('下面已经没人啦 ，不要再点啦');
+            return false;
+        }
+    }
+</script>
+{/block}

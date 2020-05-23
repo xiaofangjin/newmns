@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+		<script src="__STATICindex__/js/layer/layer.js"></script>
+	<script src="__STATICindex__/js/tpUpload.js"></script>
+	</head>
+	<body class="wallet setBox">
+		<div id="app">
+			<div>
+				<div class="earnings">
+					<div class="header headerw">
+						<a href="javascript:history.go(-1);" class="icon-left">
+							<img src="__STATICindex__/img/left.png" alt="">
+						</a>
+						<h1>设置</h1>
+					</div>
+				</div>
+				<div class="set_box"></div>
+				<div class="set_box">
+					<div class="set_box">
+						<div class="set_list list_x username">
+							<span>用户头像</span> 
+							<span>
+								{if $user.tou}
+                                <img id="cropedBigImg" class="touxiang" src="__STATIC__/upload/img/{$user.tou}" alt="">
+
+								{else}
+								<img  class="touxiang" src="__STATICindex__/img/toux.png" alt="">
+								{/if}
+								<input type="file" id="avatar1" style="opacity: 0;position: absolute;top:0px;right:10px;height:40px;width:40px" name="file" id="">
+							</span>
+						</div>
+						<div class="set_list list_x">
+							<a href="javascript:;" class="nicheng" style="display: inline-block;">
+								<span>昵称</span>
+								<span class="lan">{$user.name}</span> <i class="icon"></i>
+							</a>
+						</div>
+						<div class="set_list list_x">
+							<a href="zfmm.html" class="" style="display: inline-block;">
+								<span>修改支付密码</span>
+								<i class="icon"></i>
+							</a>
+						</div>
+						<div class="set_list list_x">
+							<a href="dlmm.html" class="" style="display: inline-block;">
+								<span>修改登录密码</span>
+								<i class="icon"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+		<script>
+            function abc(){
+
+                layer.confirm('确定退出吗?', {icon: 3, title:'提示'}, function(index){
+                    $.post("{:url('index/center/logout')}",function(){
+                        location.href="{:url('index/user/login')}";
+                    });
+                    layer.close(index);
+                });
+            }
+		</script>
+		
+
+
+	<script>
+        $("#avatar1").tpUpload({
+            url: '{:url("index/center/AJAXupload1")}',
+            start: function () {
+                load = layer.load();
+            },
+            success: function (res) {
+                layer.close(load);
+                if(res.code==2){
+                    layer.msg(res.data);
+                }else{
+                    layer.msg('成功');
+                    $('#path1').val(res.data);
+                    var src = "__STATIC__/upload/img/" + res.data;
+                    $('#cropedBigImg').attr('src',src);
+                }
+            }
+        });
+
+        $('.nicheng').click(function(){
+            layer.prompt(
+                {title:'修改昵称',},
+                function(value, index, elem){
+                    if($.trim(value) == '' ){
+                        layer.msg('请输入昵称');
+                        return false;
+					}
+                    var load = layer.load();
+                    $.ajax({
+                        url:"{:url('index/center/editnick')}",
+                        type:'post',
+                        data:{value:value},
+                        dataType:'json',
+                        success:function(res){
+                            if(res.con==1){
+                                // layer.close(load);
+                                layer.msg(res.message,function(){
+                                    window.location.reload();
+                                });
+                            }else{
+                                layer.close(load);
+                                layer.msg(res.message);
+                            }
+                        }
+                    })
+                    // $('.lan').text(value)
+                    // layer.msg('修改成功'); //得到value
+                    layer.close(index);
+                });
+        })
+	</script>
+	
+
+</body></html>

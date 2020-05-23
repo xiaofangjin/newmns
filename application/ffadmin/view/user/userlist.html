@@ -1,0 +1,621 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+    .layui-laydate.layui-laydate-range{
+        width:100%;
+        overflow-y: hidden;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+</style>
+{/block}
+{block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home" ><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">用户管理</a></li>
+            <li class="active" id="son_menu">用户管理</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>系统所有的会员都在这里噢</p>
+        </div>
+        <!--操作说明 END-->
+        <!--添加模态层 BEGIN-->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h4 class="modal-title">添加用户</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="post" action="adduseract.html" id="form1">
+                            <div class="form-group">
+                                <label>推荐人ID</label>
+                                <input type="text" class="form-control" id="parent_id" name="u_re_uid" maxlength="30" readonly="" placeholder="请输入推荐人ID">
+                            </div>
+                            <div class="form-group">
+                                <label>用户名</label>
+                                <input type="text" class="form-control"  id="userid1" name="u_name" maxlength="30" placeholder="请输入用户名" readonly="">
+                            </div>
+                            <div class="form-group">
+                                <label>姓名</label>
+                                <input type="text" class="form-control" id="realname1" name="u_nick_name" maxlength="30" placeholder="请输入姓名">
+                            </div>
+                            <div class="form-group">
+                                <label>登陆密码</label>
+                                <div class="password">
+                                    <input type="text" class="form-control" id="pwd" name="pwd" placeholder="请输入新登陆密码">
+                                    <span class="glyphicon glyphicon-eye-close form-control-feedback"><img class="__STATIC__/admin/img" data-img="1" style="width:20px" src="__STATIC__/admin/img/by.png" alt=""></span> <!--小图标元素-->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>支付密码</label>
+                                <div class="password">
+                                    <input type="text" class="form-control" id="pwdH" name="pwdH" placeholder="请输入新支付密码">
+                                    <span class="glyphicon glyphicon-eye-close form-control-feedback"><img class="__STATIC__/admin/img" data-img="1" style="width:20px" src="__STATIC__/admin/img/by.png" alt=""></span> <!--小图标元素-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>会员级别</label>
+                                <select class="form-control m-bot15" id="user_type" name="u_type">
+                                    <option value="1">一级会员</option>
+                                    <option value="2">二级会员</option>
+                                    <option value="3">三级会员</option>
+                                    <option value="4">四级会员</option>
+                                    <option value="5">五级会员</option>
+                                    <option value="0">零级会员</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>节点级别</label>
+                                <select class="form-control m-bot15" id="jie" name="jie">
+                                    <option value="1">初级</option>
+                                    <option value="2">中级</option>
+                                    <option value="3">高级</option>
+                                    <option value="4">超级</option>
+                                    <option value="0">零级</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>手机号</label>
+                                <input type="text" class="form-control" id="iphone" name="u_tel" placeholder="请输入联系方式">
+                            </div>
+                            <input type="hidden" name="u_id" id="user_id" value="" >
+                            <button type="button" class="btn btn-default" id="submit" onclick="bianji();">修改</button>
+                            <input type="reset" name="reset" style="display: none;">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline"  action="" >
+                <div class="layui-inline">
+                    搜索会员级别 ：
+                    <div class="layui-inline">
+                        <select class="form-control " id="user_type1" name="u_type" style="width: 200px;">
+                            <option value=""></option>
+                            <option value="1" {if condition="$type==1"} selected {/if}>一星会员</option>
+                            <option value="2" {if condition="$type==2"} selected {/if}>二星会员</option>
+                            <option value="3" {if condition="$type==3"} selected {/if}>三星会员</option>
+                            <option value="4" {if condition="$type==4"} selected {/if}>四星会员</option>
+                            <option value="5" {if condition="$type==5"} selected {/if}>五星会员</option>
+                            <option value="0" {if condition="$type===0"} selected {/if}>零星会员</option>
+                        </select>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="u_create_time" id="test6" lay-key="1" data-date="date" value="{$date}">
+                        </div>
+                    </div>
+                </div>
+                <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索节点级别：
+                <div class="layui-inline">
+                        <select class="form-control " id="user_type2" name="u_type" style="width: 200px;">
+                            <option value=""></option>
+                            <option value="1" {if condition="$type1==1"} selected {/if}>初级</option>
+                            <option value="2" {if condition="$type1==2"} selected {/if}>中级</option>
+                            <option value="3" {if condition="$type1==3"} selected {/if}>高级</option>
+                            <option value="4" {if condition="$type1==4"} selected {/if}>超级</option>
+                        </select>
+                </div><span style="margin:0 2rem"></span></div>
+                </span>
+
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索账号：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_name" id="userid"  data-userid="userid" value="{$userid}">
+                </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索姓名：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_nick_name" id="realname"  data-name="name" value="{$name}">
+                </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索手机号：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_tel" id="phone"  data-phone="phone" value="{$phone}">
+                </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem">搜索推荐人：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_tj_id" id="recommender"  data-puserid="puserid" value="{$puserid}">
+                </div><span style="margin:0 2rem"></span></div></span>
+            </form>
+            <button class="layui-btn" data-type="search"  >搜索</button>
+            <button class="layui-btn" data-type="clear">清空</button>
+
+        </div>
+
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp"></div>
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body layui-table-main">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th data-field="u_id" data-key="2-0-0" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-0">
+                                    <span>ID</span>
+                                </div>
+                            </th>
+                            <th data-field="u_name" data-key="2-0-1" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-1">
+                                    <span>用户账号</span>
+                                </div>
+                            </th>
+                            <th data-field="u_name" data-key="2-0-1" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-1">
+                                    <span>密码</span>
+                                </div>
+                            </th>
+                            <th data-field="u_name" data-key="2-0-1" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-1">
+                                    <span>二级密码</span>
+                                </div>
+                            </th>
+                            <th data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    <span>用户等级</span>
+                                </div>
+                            </th>
+                            <th data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    <span>节点级别</span>
+                                </div>
+                            </th>
+                            <th data-field="u_nick_name" data-key="2-0-4" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-4">
+                                    <span>姓名</span>
+                                </div>
+                            </th>
+                            <th data-field="u_tel" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5">
+                                    <span>手机号</span>
+                                </div>
+                            </th>
+                            <th data-field="u_money" data-key="2-0-6" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-6">
+                                    <span>钱包</span>
+                                </div>
+                            </th>
+                            <th data-field="u_tj_id" data-key="2-0-7" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-7">
+                                    <span>推荐人</span>
+                                </div>
+                            </th>
+                            <th data-field="u_create_time" data-key="2-0-10" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-10">
+                                    <span>添加时间</span>
+                                </div>
+                            </th>
+                            <th data-field="u_level" data-key="2-0-9" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-9">
+                                    <span>当前状态</span>
+                                </div>
+                            </th>
+                            <th data-field="u_is_frozen" data-key="2-0-8" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-8">
+                                    <span>激活/冻结账号</span>
+                                </div>
+                            </th>
+
+                            <th data-field="11" data-key="2-0-11" class=" layui-table-col-special">
+                                <div class="layui-table-cell laytable-cell-2-0-11">
+                                    <span>操作</span>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <!-- </table>
+                </div>
+                <div class="layui-table-body layui-table-main">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                        {volist name="users" id="vo"}
+                        <tr data-index="0">
+                            <td data-field="u_id" data-key="2-0-0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div>
+                            </td>
+                            <td data-field="u_name" data-key="2-0-1" data-content="932901" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-1">
+                                    <a href="userlist.html#" style="cursor: hand" title="进入{$vo.userid}的个人主页" onclick="enter('{$vo.id}')" target="_blank">{$vo.userid}</a>
+                                </div>
+                            </td>
+                            <td data-field="u_level" data-key="2-0-2" data-content="密码" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">
+                                    <a href="###" data-toggle="moda2" > {$vo.pwd}</a>
+                                </div>
+                            </td>
+                            <td data-field="u_level" data-key="2-0-2" data-content="二级密码" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">
+                                    <a href="###" data-toggle="moda2" > {$vo.pwdH}</a>
+                                </div>
+                            </td>
+                            <td data-field="u_type" data-key="2-0-3" data-content="会员" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    {if condition="$vo.kg_level == 1"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 一星会员 </a>
+                                    </p>
+                                    {elseif condition="$vo.kg_level == 2"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 二星会员 </a>
+                                    </p>
+                                    {elseif condition="$vo.kg_level == 3"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');">三星会员 </a>
+                                    </p>
+                                    {elseif condition="$vo.kg_level == 4"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 四星会员 </a>
+                                    </p>
+                                    {elseif condition="$vo.kg_level == 5"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 五星会员 </a>
+                                    </p>
+                                    {elseif condition="$vo.kg_level === 0"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 零星会员 </a>
+                                    </p>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td data-field="u_type" data-key="2-0-3" data-content="会员" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    {if condition="$vo.level == 1"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 初级节点 </a>
+                                    </p>
+                                    {elseif condition="$vo.level == 2"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 中级节点 </a>
+                                    </p>
+                                    {elseif condition="$vo.level == 3"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');">高级节点 </a>
+                                    </p>
+                                    {elseif condition="$vo.level == 4"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 超级节点 </a>
+                                    </p>
+                                    {elseif condition="$vo.level == 0"}
+                                    <p>
+                                        <a href="userlist.html#myModal1" data-toggle="modal" onclick="change('1445');"> 零节点 </a>
+                                    </p>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td data-field="u_nick_name" data-key="2-0-4" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-4">{$vo.name}</div>
+                            </td>
+                            <td data-field="u_tel" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5">{$vo.phone}</div>
+                            </td>
+                            <td data-field="u_money" data-key="2-0-6" data-content="" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-6">
+                                    <p>本金：{$vo.money}</p>
+                                    <p>分红金额：{$vo.hong}</p>
+                                    <p>已提现：{$vo.tixian}</p>
+                                    <p><span>总收益：{$vo.tixian}</span></p>
+                                    <p>usdt:{$vo.usdt}</p>
+                                </div>
+                            </td>
+                            <td data-field="u_tj_id" data-key="2-0-7" data-content="" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-7">
+                                    <a >{$vo.recom}</a>
+                                </div>
+                            </td>
+                            <td data-field="u_create_time " data-key="2-0-10 " class=" ">
+                                <div class="layui-table-cell laytable-cell-2-0-10 ">{$vo.create_time|date="Y-m-d H:i:s",###}</div>
+                            </td>
+                             {if condition="$vo.status==1"}
+                            <td data-field="u_level" data-key="2-0-9" data-content="体验会员" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-9">
+                                    <span style="pointer-events: auto; cursor: pointer;" class="label label-success label-mini" > 激活</span>
+                                </div>
+                            </td>
+                            {else}
+                            <td data-field="u_level " data-key="2-0-9 " data-content="体验会员 " class=" ">
+                                <div class="layui-table-cell laytable-cell-2-0-9 ">
+                                    <span style="pointer-events: auto; cursor: pointer; " class="label label-danger label-mini " > 冻结</span>
+                                </div>
+                            </td>
+                            {/if}
+                            {if condition="$vo.status==0 || $vo.status==2"}
+                            <td data-field="u_is_frozen" data-key="2-0-8" data-content="0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-8">
+                                    <span style="pointer-events: auto; cursor: pointer;" class="label label-success label-mini" onclick="jihuo('{$vo.id}');" id="jihuo" data-jihuo="caozuo{$vo.id}">激活</span>
+                                </div>
+                            </td>
+                            {else}
+                            <td data-field="u_is_frozen" data-key="2-0-8" data-content="0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-8">
+                                    <span style="pointer-events: auto; cursor: pointer;" class="label label-danger label-mini" onclick="jihuo('{$vo.id}');" data-jihuo="caozuo{$vo.id}">冻结</span>
+                                </div>
+                            </td>
+                            {/if}
+                            <td data-field="11 " data-key="2-0-11 " data-off="true " class="layui-table-col-special ">
+                                <div class="layui-table-cell laytable-cell-2-0-11 ">
+                                    <a href="userlist.html#myModal" data-toggle="modal" data-num='{$vo.id}' class="layui-btn layui-btn-xs" lay-event="edit" id="edit" onclick="abc('{$vo.id}')">编辑</a>
+<!--                                  <span class="label label-danger label-mini" onclick="yongjiu('{$vo.id}')">永久冻结</span>-->
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            {$result->render()}
+            <!--表格主体 END-->
+            <script type="text/javascript">
+                $("button[data-type='search']").click(function(){
+                    var type = $('#user_type1 option:checked').val();
+                    var type1 = $('#user_type2 option:checked').val();
+                    var userid = $("input[data-userid='userid']").val();
+                    var date = $("input[data-date='date']").val();
+                    var name = $("input[data-name='name']").val();
+                    var phone = $("input[data-phone='phone']").val();
+                    var puserid = $("input[data-puserid='puserid']").val();
+                    location.href="{:url('ffadmin/user/userlist')}?type=" + type +"&&userid="+userid +"&&date="+date+"&&name="+name+"&&phone="+phone+"&&puserid="+puserid + "&&type1=" + type1;
+                });
+
+                $("button[data-type='clear']").click(function(){
+                    location.href="{:url('ffadmin/user/userlist')}";
+                });
+            </script>
+            <!--右侧固定栏 BEGIN-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+
+
+            </script>
+            <!--右侧固定栏 END-->
+            <script>
+                $('.glyphicon').click(function(){
+                    var img = $(this).children().attr("src");
+
+
+                    if(img == 'img/by.png'){
+                        $(this).children().attr("src",'img/zy.png');
+
+                    }else  if(img == 'img/zy.png'){
+                        $(this).children().attr("src",'img/by.png');
+                    }
+                })
+            </script>
+            <script type="text/html" id="switchTpl">
+                <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+            </script>
+            <script type="text/html" id="switchTpl2">
+                <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_level == '体验会员' ? 'label-danger' :  'label-success'  }} label-mini' ]">
+            {{ d.u_level == '体验会员' ? '未激活' : '已激活' }}</span>
+            </script>
+
+
+            <script type="text/html" id="type">
+
+                <a href="#myModal2" data-toggle="moda2"  onclick='change2("{{d.u_id}}");'>
+                    {{d.u_level}}
+                </a>
+
+                <!--<a href="#" ></a>-->
+            </script>
+
+            <script type="text/html" id="level">
+
+                <p>
+                    <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                        {{d.u_type}}
+                    </a>
+                </p>
+
+
+            </script>
+
+
+
+            <script type="text/html" id="user">
+                <a href="#" style="cursor: hand" title="进入{{d.u_name}}的个人主页" onclick="RedirectClientWeb('{{d.u_id}}');">{{d.u_name}}</a>
+            </script>
+
+    </section>
+</section>
+
+<script>
+    enter = function(id){
+        $.post("{:url('ffadmin/user/openIndex')}",{id:id},function(str){
+            if(str){
+                window.location.href="http://"+window.location.host+"/index.php/index/index/index";
+                /* window.open("http://"+window.location.host+"/index.php/index/index/index"); */
+            }else{
+                layer.msg('登录前台失败');
+            }
+        })
+    }
+    jihuo = function(id) {
+        var jihuo = $("span[data-jihuo='caozuo"+id+"']").text();
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: "{:url('ffadmin/user/jihuo')}",
+            data: { id: id },
+            success: function(res) {
+                if (res.con == 1) {
+                    if (jihuo == '激活') {
+                        layer.msg('激活成功', function() {
+                            window.location.reload();
+                        });
+                    } else if(jihuo == '冻结'){
+                        layer.msg('冻结成功', function() {
+                            window.location.reload();
+
+                        });
+                    }
+                } else {
+                    if (jihuo == '激活') {
+                        layer.msg('激活失败', function() {
+                            window.location.reload();
+
+                        });
+                    } else if(jihuo == '冻结'){
+                        layer.msg('冻结失败', function() {
+                            window.location.reload();
+
+                        });
+                    }
+                }
+            }
+        })
+    }
+
+    function abc(id){
+        $('#user_id').val(id);
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            url:"{:url('ffadmin/user/edit')}",
+            data:{id:id},
+            success:function(res){
+                $("#userid1").val(res.user['userid']);
+                $("#parent_id").val(res.parentUser);
+                $("#realname1").val(res.user['name']);
+                $("#iphone").val(res.user['phone']);
+              	$("#jie").val(res.user['jie']);
+                $("#pwd").val(res.user['pwd']);
+                $("#pwdH").val(res.user['pwdH']);
+                $("#user_type").find("option[value="+res.user['kg_level']+"]").attr("selected",true);
+                $("#jie").find("option[value="+res.user['level']+"]").attr("selected",true);
+            }
+        });
+    }
+    function bianji(){
+        var userid1 = $('#userid1').val();
+        var realname1 = $('#realname1').val();
+        var pwd = $('#pwd').val();
+        var pwdH = $('#pwdH').val();
+        var user_id = $('#user_id').val();
+        var iphone = $("#iphone").val();
+        var user_type = $("#user_type option:selected").val();
+        var jie = $("#jie option:selected").val();
+        if (pwd == '') {
+            layer.msg('请输入密码');
+            return false;
+        }
+        if (pwdH == '') {
+            layer.msg('请输入支付密码');
+            return false;
+
+        }
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            url:"{:url('ffadmin/user/doEdit')}",
+            data:{userid1:userid1,realname1:realname1,user_id:user_id,iphone:iphone,pwd:pwd,pwdH:pwdH,user_type:user_type,jie:jie},
+            success:function(res){
+                if (res.con==1) {
+                    layer.msg(res.message,function(){
+                        window.location.reload();
+                    });
+                }else if(res.con==3){
+                    layer.msg(res.message);
+                }else{
+                    layer.msg(res.message);
+                }
+            }
+        });
+
+    }
+
+    yongjiu = function(id){
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            url:"{:url('ffadmin/user/yongjiu')}",
+            data:{id:id},
+            success:function(res){
+                if(res.con ==1){
+                    layer.msg(res.message,function(){
+                      window.location.reload();
+                     });
+                }else{
+                    layer.msg(res.message);
+                }
+
+            }
+        });
+    }
+
+   
+</script>
+
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+
+        //日期范围
+        laydate.render({
+            elem: '#test6'
+            ,range: true
+        });
+
+    });
+</script>
+
+
+<script type="text/javascript" src="__STATIC__/admin/js/table.js"></script>
+
+
+</section>
+
+<!-- js placed at the end of the document so the pages load faster -->
+
+
+{/block}

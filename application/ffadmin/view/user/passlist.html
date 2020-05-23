@@ -1,0 +1,331 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+    .layui-laydate.layui-laydate-range{
+        width:100%;
+        overflow-y: hidden;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+</style>
+{/block}
+{block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">用户管理</a></li>
+            <li class="active" id="son_menu">会员审核</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>会员审核</p>
+        </div>
+        <!--操作说明 END-->
+
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal1" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h4 class="modal-title">修改级别</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="post" action="changeuserlevelact.html" id="form2">
+
+                            <div class="form-group">
+                                <label>用户名</label>
+                                <input type="text" class="form-control" id="u_name2" name="u_name" maxlength="30">
+                            </div>
+
+
+                            <input type="hidden" name="u_id" id="u_id2" value="">
+                            <button type="button" class="btn btn-default" id="submit2" onclick="sendForm('#form2');">修改</button>
+                            <input type="reset" name="reset" style="display: none;">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加模态层 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline" id="search">
+                <div class="layui-inline">
+
+                </div>
+                <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索用户名：
+            <div class="layui-inline">
+            <input class="layui-input" name="u_name" id="1" data-userid="userid" value="{$userid}">
+            </div><span style="margin:0 2rem"></span></div></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索手机号：
+            <div class="layui-inline">
+            <input class="layui-input" name="u_tel" id=""   data-phone="phone" value="{$phone}">
+            </div><span style="margin:0 2rem"></span></div></span>
+            </form>
+            <button class="layui-btn" data-type="search">搜索</button>
+            <button class="layui-btn" data-type="clear">清空</button>
+        </div>
+        <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp">
+                    <div class="layui-btn-container">
+                        <a href="{:url('ffadmin/user/registerlist')}" data-toggle="modal" class="layui-btn layui-btn-sm" onclick=""> 添加用户 </a>
+                      	<a href="#" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="piliang()"> 批量审核 </a>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-table-box" style="overflow-y:auto;">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                          <th data-field="u_id" data-key="2-0-0" class=" layui-unselect" style="text-align: center">
+                                <div class="layui-table-cell laytable-cell-2-0-0" id="checkall">
+                                    <input type="checkbox" name="" id="all" >全选
+                                </div>
+                            </th>
+                            <th data-field="u_id" data-key="2-0-0" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-0">
+                                    <span>ID</span>
+                                </div>
+                            </th>
+                            <th data-field="u_name" data-key="2-0-2" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">
+                                    <span>用户名</span>
+                                </div></th>
+                            <th data-field="u_nick_name" data-key="2-0-6" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-6"><span>姓名</span></div>
+                            </th>
+                            <th data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    <span>身份证号</span>
+                                </div>
+                            </th>
+                            <th data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    <span>身份证正面</span>
+                                </div>
+                            </th>
+                            <th data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3">
+                                    <span>身份证反面</span>
+                                </div>
+                            </th>
+                            <th data-field="u_level" data-key="2-0-4" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-4">
+                                    <span>用户级别</span>
+                                </div>
+                            </th>
+                            <th data-field="u_center_id" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5"><span>银行卡号</span></div>
+                            </th>
+                            <th data-field="u_center_id" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5"><span>支付宝</span></div>
+                            </th>
+                            <th data-field="u_tel" data-key="2-0-7" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-7"><span>手机号</span></div>
+                            </th>
+                            <th data-field="u_create_time" data-key="2-0-8" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-8">
+                                    <span>注册时间</span>
+                                </div>
+                            </th>
+                            <th data-field="9" data-key="2-0-9" class=" layui-table-col-special">
+                                <div class="layui-table-cell laytable-cell-2-0-9">
+                                    <span>操作</span>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <!-- </table>
+                    </div>
+                    <div class="layui-table-body layui-table-main">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                        {volist name="users" id="vo"}
+                        <tr data-index="0" class="">
+                            <td style="text-align: center">
+                                <input type="checkbox" name='ids' data-id={$vo.id} >
+                            </td>
+                            <td data-field="u_id" data-key="2-0-0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div>
+                            </td>
+                            <td data-field="u_name" data-key="2-0-2" data-content="559180" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">{$vo.userid}</div>
+                            </td>
+                            <td data-field="u_nick_name" data-key="2-0-6" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-6">{$vo.name}</div>
+                            </td>
+                            <td data-field="u_nick_name" data-key="2-0-6" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-6">{$vo.card}</div>
+                            </td>
+                            <td data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3"><img src="__STATIC__/upload/shen/{$vo.zheng}" style="width: 100px;width: 100px" onclick="abc('{$vo.id}')" data-img="img_{$vo.id}"></div>
+                            </td>
+                            <td data-field="u_type" data-key="2-0-3" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-3"><img src="__STATIC__/upload/shen/{$vo.fan}" style="width: 100px;width: 100px" onclick="abc1('{$vo.id}')" data-img1="img_{$vo.id}"></div>
+                            </td>
+                            <td data-field="u_level" data-key="2-0-4" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-4">{$vo.kg_level}</div>
+                            </td>
+                            <td data-field="u_center_id" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5">{$vo.banknum}</div>
+                            </td>
+                            <td data-field="u_center_id" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5">{$vo.zhifubao}</div>
+                            </td>
+                            <td data-field="u_tel" data-key="2-0-7" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-7">{$vo.phone}</div>
+                            </td>
+                            <td data-field="u_create_time" data-key="2-0-8" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-8">{$vo.create_time}</div>
+                            </td>
+                            <td data-field="9" data-key="2-0-9" data-off="true" class="layui-table-col-special">
+                                <div class="layui-table-cell laytable-cell-2-0-9">
+                                  <a class="layui-btn layui-btn-xs" lay-event="edit" onclick="aabbcc('{$vo.id}');">审核</a>
+                                  <a class="layui-btn layui-btn-xs" lay-event="edit" onclick="deny('{$vo.id}');">审核不通过</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$users->render()}
+            </div>
+            <!--表格主体 END-->
+            <script type="text/javascript">
+                $("button[data-type='search']").click(function(){
+                    var userid = $("input[data-userid='userid']").val();
+
+                    var phone = $("input[data-phone='phone']").val();
+                    location.href="{:url('ffadmin/user/passlist')}?userid="+userid+ "&&phone="+phone;
+                });
+
+                $("button[data-type='clear']").click(function(){
+                    location.href="{:url('ffadmin/user/passlist')}";
+                });
+
+                aabbcc = function(id){
+                    $.ajax({
+                        type: "POST", // 用POST方式传输
+                        dataType:'json',
+                        url: "{:url('ffadmin/user/shenhe')}", // 目标地址
+                        data:{id:id},
+                        success: function (res) {
+                            if (res.con==1) {
+                                layer.msg('审核通过',function(){
+                                    window.location.reload();
+                                })
+                            }else{
+                                layer.msg('审核失败');
+                            }
+                        }
+                    });
+                }
+                deny = function(id){
+                    layer.confirm('您确定否决该用户？',{
+                        title:'温馨提示',
+                        btn: ['确认','取消']
+                    }, function(){
+                        var load = layer.load();
+                        $.ajax({
+                            type: "POST", // 用POST方式传输
+                            dataType:'json',
+                            url: "{:url('ffadmin/user/deny')}", // 目标地址
+                            data:{id:id},
+                            success: function (res) {
+                                layer.close(load);
+                                if (res.con==1) {
+                                    layer.msg('已否决',function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    layer.msg('审核失败');
+                                }
+                            }
+                        });
+                    }, function(){
+                    });
+
+                }
+                                $("#all").click(function(){
+                    var userids = this.checked;
+                    $("input[name=ids]").each(function() {
+                        this.checked = userids;
+                    });
+                })
+                piliang = function(){
+                    str = "";
+                    $('input[name=ids]').each(function() {
+                        if (this.checked == true) {
+                            str += $(this).data("id") + ",";
+                        }
+                    });
+                    if (str == "") {
+                        layer.msg('请选中要批量通过的');
+                        return false;
+                    }
+                    str = str.substring(0, str.length - 1);
+                    layer.confirm('确定通过这些审核么?', { btn: ['确定', '取消'] },
+                        function() {
+                            var load = layer.load();
+                            $.ajax({
+                                type: 'post',
+                                data: { id: str },
+                                datatype: "json",
+                                url: "{:url('ffadmin/user/piliang')}",
+                                success: function(res) {
+                                    if (res.con == 1) {
+                                        layer.close(load);
+                                        layer.msg(res.message);
+                                        window.location.reload();
+                                    } else if (res.con == 0) {
+                                        layer.close(load);
+                                        layer.msg(res.message);
+                                    }
+                                }
+                            });
+                            str = "";
+                        },
+                        function() {
+                            str = "";
+                        });
+                }
+            </script>
+
+    </section>
+</section>
+
+<script>
+
+</script>
+
+
+<script type="text/javascript" src="js/table.js"></script>
+
+
+</section>
+
+{/block}

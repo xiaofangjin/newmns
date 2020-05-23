@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<link rel="stylesheet" href="__STATICindex__/css/main.css">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+		<script src="__STATICindex__/js/unslider.min.js"></script>
+	</head>
+	<body class="market" style="background: #0b0a05;">
+		<div id="app">
+				<!-- <div class="header-f">
+					<h1>市场</h1>
+				</div> -->
+			<div class="heade" style="background: #373737;line-height: 50px;display: flex;align-items: center">
+				<img style="width: 42px;margin: 2px 0px 0px 20px;" src="__STATICindex__/img/bshlogo2.png" alt="">
+				<p style="margin-left:10px;font-size:18px;color: #fcd108">资讯</p>
+			</div>
+				<div class="banner" id="b04">
+						<ul>
+							<li class="slider-item"><a href="#"><img src="__STATICindex__/img/banner1.jpg" alt="" width="100%" height="180" ></a></li>
+							<li class="slider-item"><a href="#"><img src="__STATICindex__/img/banner2.jpg" alt="" width="100%" height="180" ></a></li>
+							<li class="slider-item"><a href="#"><img src="__STATICindex__/img/banner3.jpg" alt="" width="100%" height="180" ></a></li>
+						</ul>
+					</div>
+			    
+
+				<div class="view-header"style="background: #0b0a05;">
+					{volist name="news" id="vo"}
+								<a href="{:url('index/news/detail',['id'=>$vo.id])}">
+									<div class="d-flex align-items-center" style="background-color: #282B34;border-radius: 10px;padding:10px;margin: 10px" >
+										<img style="width:2rem;margin-right: 10px" src="__STATICindex__/img/icon.jpg" alt="">
+										<div style="font-size: 18px;color:#fff">
+											<p>{$vo.title}</p>
+											<p>时间:{$vo.create_time}</p>
+										</div>
+									</div>
+								</a>
+					{/volist}
+								
+				</div>
+<div class="footr">
+	<div>
+		<a href="{:url('index/index/index')}" class="">
+			<img src="__STATICindex__/img/nav1.png">
+			<p>首页</p>
+			<!-- <br>首页 -->
+		</a>
+	</div>
+	<div>
+		<a href="{:url('index/deal/jy')}" class="">
+			<img src="__STATICindex__/img/index1.svg">
+			<p>交易</p>
+			<!-- <br>资产 -->
+		</a>
+	</div>
+	<div>
+		<a href="{:url('index/news/zx')}" class="ace">
+			<img src="__STATICindex__/img/nav6.svg">
+			<p>资讯</p>
+			<!-- <br>市场 -->
+		</a>
+	</div>
+
+
+	<div>
+		<a href="{:url('index/center/my')}" class="">
+			<img src="__STATICindex__/img/gr.svg">
+			<p>个人</p>
+			<!-- <br>个人 -->
+		</a>
+	</div>
+</div>
+
+			</div>
+
+		
+	
+</body></html>

@@ -1,0 +1,194 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+</style>
+{/block}
+{block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">财务管理</a></li>
+            <li class="active" id="son_menu">财务明细管理</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>会员的财务明细</p>
+        </div>
+        <!--操作说明 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline" id="search">
+                <span style="margin:0 2rem"></span>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="ub_create_time" id="date" lay-key="1" data-date="date" value="{$date}">
+                    </div>
+                </div>
+                <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索用户名：
+    <div class="layui-inline">
+    <input class="layui-input" name="u_name" id=""  data-userid="userid" value="{$userid}">
+    </div><span style="margin:0 2rem"></span></div></span></form>
+            <button class="layui-btn" data-type="search">搜索</button>
+            <button class="layui-btn" data-type="clear">清空</button>
+        </div>
+        <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th data-field="ub_id" data-key="2-0-0" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-0">
+                                    <span>ID</span>
+                                    <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span>
+                                </div>
+                            </th>
+                            <th data-field="u_name" data-key="2-0-1" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-1">
+                                    <span>用户名</span>
+                                </div>
+                            </th>
+                            <th data-field="ub_money" data-key="2-0-2" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-2">
+                                    <span>操作金额</span>
+                                </div>
+                            </th>
+                            <th data-field="ub_money_type" data-key="2-0-4" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-4">
+                                    <span>操作钱包</span>
+                                </div>
+                            </th>
+                            <th data-field="ub_zongzichan" data-key="2-0-5" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-5"><span>剩余金额</span></div>
+                            </th>
+                            <th data-field="ub_state" data-key="2-0-6" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-6"><span>到账状态</span></div>
+                            </th>
+                            <th data-field="ub_create_time" data-key="2-0-7" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-7"><span>时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div>
+                            </th>
+                            <th data-field="ub_msg" data-key="2-0-8" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-8"><span>备注</span></div>
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {volist name="money" id="vo"}
+                        <tr data-index="1" class="">
+                            <td data-field="ub_id" data-key="2-0-0" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                            <td data-field="u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">{$vo.userid}</div></td>
+                            <td data-field="ub_money" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2">{$vo.get_money}</div></td>
+                            <td data-field="ub_money_type" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">{$vo.wallet}</div></td>
+                            <td data-field="ub_zongzichan" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.money}</div></td>
+                            <td data-field="ub_state" data-key="2-0-6" class=""><div class="layui-table-cell laytable-cell-2-0-6">已入账</div></td>
+                            <td data-field="ub_create_time" data-key="2-0-7" class=""><div class="layui-table-cell laytable-cell-2-0-7">{$vo.create_time}</div></td>
+                            <td data-field="ub_msg" data-key="2-0-8" class=""><div class="layui-table-cell laytable-cell-2-0-8">{$vo.comment}</div></td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {$money->render()}
+
+            <style>
+                .laytable-cell-2-0-0{ width: 100px; }
+                .laytable-cell-2-0-6{ width: 100px; }
+            </style></div>
+        <!--表格主体 END-->
+        <script type="text/javascript">
+            $("button[data-type='search']").click(function(){
+                var userid = $("input[data-userid='userid']").val();
+                var date = $("input[data-date='date']").val();
+                location.href="{:url('ffadmin/money/banklist')}?userid=" + userid + "&&date="+date;
+            });
+            $("button[data-type='clear']").click(function(){
+                location.href="{:url('ffadmin/money/banklist')}";
+            });
+        </script>
+        <!--右侧固定栏 BEGIN-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit" onclick='passcashout("{{d.u_id}}");' >审核通过</a>
+        </script>
+        <!--右侧固定栏 END-->
+
+        <script type="text/html" id="switchTpl">
+            <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+        </script>
+
+        <script type="text/html" id="type">
+
+            <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                {{d.u_type}}
+            </a>
+
+            <!--<a href="#" ></a>-->
+        </script>
+
+
+        <script type="text/html" id="level">
+
+            <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                {{d.u_level}}
+            </a>
+
+            <!--<a href="#" ></a>-->
+        </script>
+
+
+        <!--表格自定义按钮 BEGIN-->
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <a href="#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add();">
+                    添加用户
+                </a>
+            </div>
+        </script>
+        <!--表格自定义按钮 END-->
+
+    </section>
+</section>
+
+
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date'
+            ,range: true
+        });
+
+    });
+</script>
+
+<script type="text/javascript" src="__STATIC__/admin/js/table.js"></script>
+
+
+</section>
+
+{/block}

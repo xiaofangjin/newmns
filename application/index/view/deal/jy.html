@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+
+	<link rel="stylesheet" href="__STATICindex__/css/meCen.css">
+	<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+	<script src="__STATICindex__/js/layer/layer.js"></script>
+
+</head>
+	<body class="market">
+		<div id="app">
+				<!-- <div class="header-f">
+					<h1>市场</h1>
+				</div> -->
+			<div class="heade" style="background: #373737;line-height: 50px;display: flex;align-items: center">
+				<img style="width: 42px;margin: 2px 0px 0px 20px;" src="__STATICindex__/img/bshlogo2.png" alt="">
+				<p style="margin-left:10px;font-size:18px;">交易</p>
+			</div>
+				<div style="font-size: 20px;background: #0b0a05;">
+						<div class="nav " style="text-align: center;">
+							<button  class="active">买入MNS</button>
+							<!-- <button class="chu">卖出</button> -->
+						</div>
+					   <div>
+						   <div class="mairu" >
+								<div class="borde">
+										<span>当前价格 : </span>
+										<span>{$config.mns}</span>
+									</div>
+									<div class="d-flex borde">
+										<span>数量 : </span>
+										<input class="put" type="text" placeholder="请输入" id="num">
+									</div>
+									<div style="margin: 5%; color:#fff">
+										<span>可用</span>
+										<span>{$user.usdt}</span>
+										<span>USDT</span>
+									</div>
+									<div style="margin: 5%; color:#fff">
+										<p>1<span>USDT</span>={$config.mnsbei}<span>MNS</span></p>
+									</div>
+									<button class="but" type="button" onclick="buy()">买入</button>
+						   </div>
+					   </div>
+					 </div>
+				<div class="view-header">
+					<div class="flex-box tab">
+						<div class="flex-list">
+							<p>名称</p>
+						</div>
+						<div class="flex-list">当前价格</div>
+						<div class="flex-list">涨跌幅(24h)</div>
+					</div>
+					<div class="bit">
+						<ul>
+						<a href="javascript:;" class="router-link-exact-active router-link-active">
+								<li class="flex-box bit_list">
+									<div class="flex-list bittype">
+										<img style="float: left;margin-left:10px;width: 40px;height: 40px;" src="__STATICindex__/img/USDT.png" alt="">
+										<div style="float: left;height: 40px;width: 40px;margin-top: 10px">
+											<p style="text-transform: uppercase;">USDT</p>
+										</div>
+
+									</div>
+									<div class="flex-list"><span class="off">$2.9273</span></div>
+									<div class="flex-list range"><button type="button" class="red">+2.07%</button></div>
+								</li>
+						</a>
+						<a href="javascript:;" class="router-link-exact-active router-link-active">
+								<li class="flex-box bit_list">
+									<div class="flex-list bittype">
+										<img style="float: left;margin-left:10px;width: 40px;height: 40px;" src="__STATICindex__/img/mns.png" alt="">
+										<div style="float: left;height: 40px;margin-top: 10px">
+											<p style="text-transform: uppercase;">MNS</p>
+										</div>
+									</div>
+									<div class="flex-list"><span class="off">${$config.mns}</span></div>
+									<div class="flex-list range"><button type="button" class="red">+2.01%</button></div>
+								</li>
+						</a>
+						
+					</ul>
+					</div>
+					<div style="height:60px;"></div>
+				</div>
+				
+		<div class="footr">
+			<div>
+				<a href="{:url('index/index/index')}" >
+					<img src="__STATICindex__/img/nav1.png">
+					<p>首页</p>
+					<!-- <br>首页 -->
+				</a>
+			</div>
+			<div>
+				<a href="{:url('index/deal/jy')}" class="ace">
+					<img src="__STATICindex__/img/nav5.svg">
+					<p>交易</p>
+					<!-- <br>资产 -->
+				</a>
+			</div>
+			<div>
+				<a href="{:url('index/news/zx')}" class="">
+					<img src="__STATICindex__/img/index2.svg">
+					<p>资讯</p>
+
+				</a>
+			</div>
+			<div>
+				<a href="{:url('index/center/my')}" class="">
+					<img src="__STATICindex__/img/gr.svg">
+					<p>个人</p>
+					<!-- <br>个人 -->
+				</a>
+			</div>
+		</div>
+</div>
+<script>
+	buy = function(){
+	    var num  = $("#num").val()
+        num = parseInt(num);
+	    console.log(typeof(num))
+		if(num == '' || num<=0){
+	        layer.msg('请输入正确的金额');
+	        return false;
+		}
+        var load = layer.load();
+        $.ajax({
+            url:"{:url('index/deal/buy')}",
+            type:'post',
+            data:{num:num},
+            dataType:'json',
+            success:function(res){
+                if(res.con==1){
+                    layer.close(load);
+                    layer.msg(res.message,function(){
+                        window.location.reload();
+                    });
+                }else{
+                    layer.close(load);
+                    layer.msg(res.message);
+                }
+            }
+        })
+	}
+</script>
+		
+	
+</body>
+</html>

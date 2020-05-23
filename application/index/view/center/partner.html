@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<title>MNS</title>
+	<link href="__STATICindex__/css/app.css" rel="stylesheet">
+	<script src="__STATICindex__/js/jquery-1.js"></script>
+	<script src="__STATICindex__/js/layer/layer.js"></script>
+
+</head>
+
+<body class="wallet">
+	<div id="app">
+		<div class="partner">
+			<div class="header">
+				<a href="javascript:history.go(-1);" class="icon-left">
+					<img src="__STATICindex__/img/left1.png" alt="">
+				</a>
+				<h1>商业伙伴</h1>
+			</div>
+			<div>
+				<ul id="phone">
+					{volist name="team" id="vo"}
+					<li class="userparlist">
+						<p>{$vo.userid|substr=0,3}****{$vo.userid|substr=7} &nbsp;&nbsp;<span>{$vo.level}</span></p>
+						<p class="openno">{$vo.kg_level} </p>
+						<p>团队新增业绩：{$vo.teamzhi}</p>
+					</li>
+					{/volist}
+				</ul>
+				<ul style="display: none;"></ul>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(".size").css("font-size", $("body").width() * 0.0625 + "px")
+		$(function () {
+			$.get('/index.php/index/my/partner.html', {
+				'id': 'id'
+			}, function (res) {
+				html = '';
+				$.each(res.data, function (k, v) {
+					html += '<li class="userparlist">';
+					html += '<p>' + v.phone + '</p>';
+					html += '<p class="openno">' + v.open + '</p>';
+					html += '</li>';
+				});
+				$('#phone').html(html);
+			});
+		})
+	</script>
+
+</body>
+
+</html>

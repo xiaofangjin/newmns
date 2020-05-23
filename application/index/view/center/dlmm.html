@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+	<script src="__STATICindex__/js/layer/layer.js"></script>
+	<style>
+		.huoqu {
+			font-size: 0.5rem;
+			background: transparent;
+			border: 1px solid #DFBB7F;
+			width: 30%;
+			margin: 2%;
+			border-radius: 10px;
+			outline: none;
+			padding: 5px;
+			background: #DFBB7F;
+			color: #000;
+		}
+	</style>
+</head>
+	<body class="wallet">
+		<div id="app">
+			<div>
+				<div class="earnings">
+					<div class="header headerw">
+						<a href="javascript:history.go(-1);" class="icon-left">
+							<img src="__STATICindex__/img/left.png" alt="">
+						</a>
+						<h1>登录密码</h1>
+					</div>
+				</div>
+				<div class="bad">
+						<p>原登录密码</p>
+						<div class="d-flex align-items-center">
+							<input type="password"  placeholder="请输入原登录密码" id="oldpwd">
+						</div>
+					<p>验证码</p>
+					<div class="d-flex align-items-center">
+						<input type="password"  placeholder="请输入短信验证码" id="code" style="width: 60%">
+						<button class="huoqu" style="margin-left: 10px;font-size: 0.7rem;">点击获取</button>
+					</div>
+					<p>新密码</p>
+						<input type="password" placeholder="请输入新密码" id="pwd">
+						<p>确认新密码</p>
+						<input type="password" placeholder="请确认新密码" id="repwd">
+				</div>
+				<p class="tishi">*登录密码8~20位，可以是数字、字母及其他符号的组合</p>
+				<button class="btn" type="button" onclick="confirm()">保存</button>
+				 
+			</div>
+		</div>
+		<script>
+			$(".size").css("font-size", $("body").width() * 0.0625 + "px")
+		</script>
+		<script>
+            //获取短信验证码
+            $(function() {
+                var countdown = 60;
+                function settime() {
+                    if (countdown == 0) {
+                        $(".huoqu").attr("disabled", false);
+                        $(".huoqu").text("发送");
+                        countdown = 300;
+                        return;
+                    } else {
+                        $(".huoqu").attr("disabled", true);
+                        $(".huoqu").text(countdown);
+                        countdown--;
+                    }
+                    setTimeout(function () {
+                        settime()
+                    }, 1000);
+                }
+                $('.huoqu').click(function () {
+                    var phone = "{$userid}";
+                        $.ajax({
+                            url: "{:url('index/user/code')}",
+                            data: {phone: phone, status: 5},
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (res) {
+                                layer.msg(res.msg);
+                                settime();
+                            }
+                        });
+                })
+            })
+
+            confirm = function(){
+                var old_password = $("#oldpwd").val();
+                var code = $("#code").val();
+                var new_password = $("#pwd").val();
+                var new_password_confirm = $("#repwd").val();
+
+                if (old_password == ''){
+                    layer.msg('原密码不能为空');
+                    return false;
+                }
+                if (code == ''){
+                    layer.msg('短信验证码不能为空');
+                    return false;
+                }
+                if (new_password == ''){
+                    layer.msg('新密码不能为空');
+                    return false;
+                }
+                if (new_password_confirm == ''){
+                    layer.msg('请再次输入新密码');
+                    return false;
+                }
+                if (new_password_confirm != new_password){
+                    layer.msg('两次输入密码不一致，请重新输入');
+                    return false;
+                }
+                var load = layer.load();
+                $.ajax({
+                    type: "POST",
+                    dataType:'json',
+                    url: "{:url('index/center/editPwd')}",
+                    data:{old_password:old_password,new_password:new_password,code:code},
+                    success:function(res){
+                        if(res.con==1){
+                            layer.msg(res.message,function(){
+                                layer.close(load);
+                                window.location.reload();
+                            })
+                        }else{
+                            layer.msg(res.message,function(){
+                                layer.close(load);
+                            });
+                        }
+                    }
+                });
+            }
+		</script>
+
+	
+</body></html>

@@ -1,0 +1,127 @@
+{extend name="public/base"} {block name="content"}
+    <section id="main-content">
+        <section class="wrapper">
+            <!--面包屑导航 BEGIN-->
+            <ul class="breadcrumb">
+                <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+                <li><a href="javascript:;" id="parent_menu">用户管理</a></li>
+                <li class="active" id="son_menu">添加新会员</li>
+            </ul>
+            <!--面包屑导航 END-->
+
+            <!--操作说明 BEGIN-->
+            <div class="alert alert-success alert-block fade in">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+                </button>
+                <h4>
+                    <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                    操作说明！
+                </h4>
+                <p>添加新会员</p>
+            </div>
+            <!--操作说明 END-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">添加新会员</h4>
+                </div>
+                <div class="modal-body" style="max-width: 720px">
+                    <form role="form" method="post" class="layui-form" action="{:url('ffadmin/user/doRegister')}">
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>会员账号</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="u_name" name="u_name" value="">
+                                <p class="help-block" style="color: #ff766c"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>推荐人账号</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="u_re_uid" name="u_re_uid" value="">
+                                <p class="help-block" style="color: #ff766c"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>真实姓名</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="u_nick_name" name="u_nick_name" value="">
+                                <p class="help-block" style="color: #ff766c"></p>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>手机号码</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="u_tel" name="u_tel" value="">
+                                <p class="help-block" style="color: #ff766c"></p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>登录密码</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="password" class="form-control" id="u_pwd1" name="u_pwd1" value="">
+                                <p class="help-block" style="color: #ff766c"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>二级密码</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="password" class="form-control" id="u_pwd3" name="u_pwd2" value="">
+                                <p class="help-block" style="color: #ff766c"></p>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+
+                        <div style="width: 100%;height: 5rem;clear: both"></div>
+                        <button type="submit" class="btn btn-default" id="" onclick="">添加</button>
+                        <input type="reset" name="reset" style="display: none;">
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </section>
+
+    <script>
+        var zone='';
+        layui.use('form', function(){
+            if(zone=='B'){
+                $("#right").attr("checked","checked");
+            }else{
+                $("#left").attr("checked","checked");
+            }
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            form.render();
+        });
+
+        $(".layui-form-switch").click(function (obj) {
+            if(obj.checked){
+                obj.value=1;
+            }else{
+                obj.value=0;
+            }
+        });
+    </script>
+
+
+
+</section>
+
+{/block}

@@ -1,0 +1,278 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src=""__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">新闻管理</a></li>
+            <li class="active" id="son_menu">系统留言管理</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src=""__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src=""__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>处理前台用户的系统留言</p>
+        </div>
+        <!--操作说明 END-->
+        <!--添加模态层 BEGIN-->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h4 class="modal-title">回复留言</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="post" action="adduseract.html" id="form1">
+                            <div class="form-group">
+                                <label>留言ID</label>
+                                <input type="text" class="form-control" id="comment_id" name="sm_id" maxlength="30" placeholder="" readonly="">
+                            </div>
+                            <div class="form-group">
+                                <label>留言会员</label>
+                                <input type="text" class="form-control" id="comment_name" name="sm_name" maxlength="30" placeholder="" readonly="">
+                            </div>
+                            <div class="form-group">
+                                <label>内容</label>
+                                <div class="password">
+                                    <textarea class="form-control" style="resize:none;" id="comment_content" name="sm_content" placeholder="内容" readonly=""></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>状态</label>
+                                <select class="form-control m-bot15" id="comment_type" name="sm_status">
+                                    <option value="1">已回复</option>
+                                    <option value="2">待回复</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>回复</label>
+                                <textarea class="form-control" style="resize:none;" id="comment_result" name="sm_result" placeholder="请输入内容"></textarea>
+                            </div>
+
+                            <!--<input type="hidden" name="u_id" id="u_id" value="" />-->
+                            <input type="hidden"  value="" id="comm_id">
+                            <button type="button" class="btn btn-default" id="submit" onclick="dohuifu();">回复</button>
+                            <input type="reset" name="reset" style="display: none;">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加模态层 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline" id="search">
+                <span style="margin:0 2rem"></span>
+                <div class="layui-inline">
+                    搜索留言状态 ：
+                    <div class="layui-inline">
+                        <select class="form-control " id="comment_status1" name="sm_status" style="width: 200px;">
+                            <option value=""></option>
+                            <option value="1" {if condition="$status==1"} selected {/if}>已回复</option>
+                            <option value="2" {if condition="$status==2"} selected {/if} >待回复</option>
+                        </select>
+                    </div>
+
+                </div>
+                <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索用户名：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_name" id=""  data-userid="userid" value="{$userid}">
+                </div><span style="margin:0 2rem"></span></div></span><span><div style="display: inline-block;margin-top: 0.2rem" data-name='name'>搜索姓名：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_nick_name" id=""  value="{$name}" data-name="name">
+                </div><span style="margin:0 2rem"></span></div></span></form>
+            <button class="layui-btn" data-type="search">搜索</button>
+            <button class="layui-btn" data-type="clear" onclick="qing()">清空</button>
+        </div>
+        <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test">
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp"></div>
+                <div class="layui-table-tool-self">
+                    <!-- <div class="layui-inline" title="筛选列" lay-event="LAYTABLE_COLS"><i class="layui-icon layui-icon-cols"></i></div>
+                    <div class="layui-inline" title="导出" lay-event="LAYTABLE_EXPORT"><i class="layui-icon layui-icon-export"></i></div>
+                    <div class="layui-inline" title="打印" lay-event="LAYTABLE_PRINT"><i class="layui-icon layui-icon-print"></i></div> -->
+                </div>
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th data-field="sm_id" data-key="2-0-0" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-0"><span>ID</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="u_name" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>用户名</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="u_nick_name" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2"><span>姓名</span></div></th>
+                            <th data-field="sm_status" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5"><span>状态</span></div></th>
+                            <th data-field="sm_person" data-key="2-0-7" class=""><div class="layui-table-cell laytable-cell-2-0-7"><span>回复人</span></div></th>
+                            <th data-field="sm_create_time" data-key="2-0-8" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-8"><span>时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="9" data-key="2-0-9" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-9"><span>操作</span></div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <!-- </table>
+                    </div>
+                    <div class="layui-table-body layui-table-main">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                        {volist name="comment" id="vo"}
+                        <tr data-index="0" class="">
+
+                            <td data-field="sm_id" data-key="2-0-0" class="">
+                                <div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                            <td data-field="u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">{$vo.userid}</div></td>
+                            <td data-field="u_nick_name" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2">{$vo.name}</div></td>
+                            <td data-field="sm_status" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.status}</div></td>
+                            <td data-field="sm_person" data-key="2-0-7" class=""><div class="layui-table-cell laytable-cell-2-0-7">{$vo.huserid}</div></td>
+                            <td data-field="sm_create_time" data-key="2-0-8" class=""><div class="layui-table-cell laytable-cell-2-0-8">{$vo.create_time}</div></td>
+                            <td data-field="9" data-key="2-0-9" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-9"> <a href="staticlist.html#myModal" data-toggle="modal" class="layui-btn layui-btn-xs" lay-event="edit" onclick="huifu('{$vo.id}')">回复</a> <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" onclick="delcom('{$vo.id}')">删除</a> </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$comment->render()}
+                <style>
+                    .laytable-cell-2-0-0{ width: 100px; }
+                    /* .laytable-cell-2-0-1{  }
+                    .laytable-cell-2-0-2{  }
+                    .laytable-cell-2-0-3{  }
+                    .laytable-cell-2-0-4{  }
+                    .laytable-cell-2-0-5{  }
+                    .laytable-cell-2-0-6{  } */
+                    .laytable-cell-2-0-7{ width: 100px; }
+                    /* .laytable-cell-2-0-8{  } */
+                    .laytable-cell-2-0-9{ width: 150px; }
+                </style>
+            </div>
+            <!--表格主体 END-->
+            <script type="text/javascript">
+                $("button[data-type='search']").click(function(){
+                    var status = $('#comment_status1 option:selected').val();
+                    var userid = $("input[data-userid='userid']").val();
+
+                    var name = $("input[data-name='name']").val();
+                    location.href="{:url('ffadmin/News/msglist')}?userid=" + userid + "&&name=" + name + "&&status="+status;
+                });
+
+                qing = function(){
+                    location.href="{:url('ffadmin/News/msglist')}";
+                }
+
+                huifu = function(id){
+                    $.ajax({
+                        type: "POST", // 用POST方式传输
+                        url: "{:url('ffadmin/news/huifu')}", // 目标地址
+                        data:{id:id},
+                        success: function (res) {
+                            $('#comment_id').val(res.data['id']);
+                            $('#comment_name').val(res.data['userid']);
+                            $('#comment_content').text(res.data['content']);
+                            $('#comm_id').val(res.data['id']);
+                            $('#com_title').val(res.data['title']);
+                            $('#com_description').val(res.data['describe']);
+                            $("#comment_type").find("option[value='"+res.data['status']+"']").attr("selected",true);
+                        }
+                    });
+                }
+
+                dohuifu = function(){
+                    var id =  $('#comm_id').val();
+                    var status = $('#comment_status option:selected').val();
+                    var result = $('#comment_result').val();
+                    $.ajax({
+                        type: "POST", // 用POST方式传输
+                        url: "{:url('ffadmin/News/dohuifu')}", // 目标地址
+                        data:{id:id,status:status,result:result},
+                        success: function (res) {
+                            if (res.con==1) {
+                                layer.msg('回复成功',function(){
+                                    window.location.reload();
+                                })
+                            }
+                            if (res.con==0) {
+                                layer.msg('回复失败');
+                            }
+                        }
+                    });
+                }
+
+                delcom = function(id){
+                    $.ajax({
+                        type: "POST", // 用POST方式传输
+                        url: "{:url('ffadmin/News/deleteComment')}", // 目标地址
+                        data:{id:id},
+                        success: function (res) {
+                            if (res.con==1) {
+                                layer.msg('删除成功',function(){
+                                    window.location.reload();
+                                })
+                            }
+                            else{
+                                layer.msg('删除失败');
+                            }
+                        }
+                    });
+
+                }
+            </script>
+            <!--右侧固定栏 BEGIN-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">回复</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--右侧固定栏 END-->
+
+            <script type="text/html" id="switchTpl">
+                <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+            </script>
+
+            <script type="text/html" id="type">
+
+                <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                    {{d.u_type}}
+                </a>
+
+                <!--<a href="#" ></a>-->
+            </script>
+
+            <script type="text/html" id="money">
+
+                {{#  if(d.sm_address){ }}
+                <a href="{{d.sm_address}}" target="_blank">
+                    点击查看
+                </a>
+                {{#  } else { }}
+                <a href="#">
+                    暂未上传
+                </a>
+                {{#  } }}
+
+            </script>
+
+
+    </section>
+</section>
+
+
+
+<script type="text/javascript" src="__STATIC__/admin/js/table.js"></script>
+
+
+</section>
+
+{/block}

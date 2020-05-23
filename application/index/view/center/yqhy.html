@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+	<script src="__STATICindex__/js/layer/layer.js"></script>
+	<script src="__STATIC__/index/js/clipboard.min.js"></script>
+	<script src="__STATIC__/index/js/jquery.qrcode.min.js"></script>
+	</head>
+	<style>
+	canvas{
+	width:40%
+	}
+	</style>
+	<body class="wallet bgW">
+		<div id="app">
+			<div class="generalize">
+				<div class="header">
+					<a href="javascript:history.go(-1);" class="icon-left">
+						<img src="__STATICindex__/img/left.png" alt="">
+					</a>
+					<h1>邀请好友</h1>
+				</div>
+				<div class="content">
+					<div class="recode">
+						<div class="logo"><img style="height:70%" src="__STATICindex__/img/337.png" alt=""><h2 style="color: #fff;">MNS</h2></div>
+						
+						<div>
+							<div id="output"  style="text-align: center;margin-top: 20px;width: 100%"></div>
+						</div>
+						<div class="mui-lianjie">
+							<button class="btn" style="background: #d60c18;color:#fff;width:60%" >复制链接</button>
+						</div>
+						<div >
+							<h5 style="color: #fff">区块链+物联网</h5>
+							<img style="width:70%;margin-top:10px" src="__STATICindex__/img/biao.png" alt="">
+						</div>
+					</div>
+				</div>
+
+				</div>
+
+			</div>
+
+		<script type="text/javascript">
+            jQuery(function(){
+
+            })
+            $(function(){
+                var aa = window.location.host;
+                var href = "http://"+aa+"{:url('index/user/sign')}?id={$Think.session.user.id}";
+                $("#output").qrcode(href);
+                var clipboard = new ClipboardJS('.btn', {
+                    text: function() {
+                        return href;
+                    }
+                });
+
+                clipboard.on('success', function(e) {
+                    layer.msg('复制成功');
+                });
+
+                clipboard.on('error', function(e) {
+                    layer.msg('复制失败');
+                });
+            });
+		</script>
+</body></html>

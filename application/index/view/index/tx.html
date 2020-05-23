@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="size" style="font-size: 23.4375px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>MNS</title>
+		<link href="__STATICindex__/css/app.css" rel="stylesheet">
+		<script src="__STATICindex__/js/jquery-1.js"></script>
+		<script src="__STATICindex__/js/layer/layer.js"></script>
+	</head>
+	<style>
+	
+	</style>
+	<body class="wallet">
+		<div id="app">
+			<div>
+				<div class="earnings">
+					<div class="header headerw">
+						<a href="javascript:history.go(-1);" class="icon-left">
+							<img src="__STATICindex__/img/left.png" alt="">
+						</a>
+						<h1>提现</h1>
+					</div>
+				</div>
+				<div class="bad">
+					<p>提币地址</p>
+					<div class="d-flex align-items-center">
+						<input type="text"  placeholder="请输入提币地址" id="address">
+					</div>
+					<p>请输入金额</p>
+					<input type="text" placeholder="请输入金额,满{$full}提现" id="num">
+		  			<p style="margin:0 5%;color:#E2BE82;font-size: 0.5rem">*提币手续费：{$xu}USDT &nbsp;&nbsp; *可提现金额：{$money}USDT</p>
+					<p>请输入支付密码</p>
+					<input type="password" placeholder="请输入支付密码" id="password">
+			</div>
+			<p class="tishi">*温馨提示：请务必仔细核对提币地址，这是您账户的唯一标识否则资产将不可找回</p>
+			<button class="btn" type="button" onclick="queding()">确认</button>
+			
+			</div>
+		</div>
+		<script>
+			$(".size").css("font-size", $("body").width() * 0.0625 + "px")
+		</script>
+		<script>
+            queding = function(){
+                var address = $("#address").val();
+                var num = $("#num").val();
+
+                var password = $("#password").val();
+                if (address == ''){
+                    layer.msg('请填写提币地址');
+                    return false;
+                }
+                if (num == ''){
+                    layer.msg('请填写金额');
+                    return false;
+                }
+                if (num < 0){
+                    layer.msg('请填写正确金额');
+                    return false;
+                }
+                if (password == ''){
+                    layer.msg('请输入支付密码');
+                    return false;
+                }
+                var load = layer.load();
+                $.ajax({
+                    url:"{:url('index/index/tixian')}",
+                    type:'post',
+                    data:{num:num,password:password,address:address},
+                    dataType:'json',
+                    success:function(res){
+                        console.log(res);
+                        if(res.con==1){
+                            // layer.close(load);
+                            layer.msg(res.message,function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.close(load);
+                            layer.msg(res.message);
+                        }
+                    }
+                })
+
+            }
+		</script>
+
+	
+</body></html>

@@ -1,0 +1,258 @@
+
+ {extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+<ul class="breadcrumb">
+    <li><a href="index.html"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="img/sy.png" alt=""></i> 首页</a></li>
+    <li><a href="javascript:;" id="parent_menu">前台财务管理</a></li>
+    <li class="active" id="son_menu">可售余额明细</li>
+</ul>
+<!--面包屑导航 END-->
+
+<!--操作说明 BEGIN-->
+<div class="alert alert-success alert-block fade in">
+    <button data-dismiss="alert" class="close close-sm" type="button">
+        <i class="icon-remove"><img style="width:20px" src="img/cuo.png" alt=""></i>
+    </button>
+    <h4>
+        <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="img/dh.png" alt=""></i>
+        操作说明！
+    </h4>
+    <p>会员的财务明细</p>
+</div>
+<!--操作说明 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+                <form style="display: inline" id="search">   
+                    <div class="layui-inline">
+                        <label class="layui-form-label">日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="ub_create_time" id="testaa" lay-key="1" value="{$date}" data-date="date">
+                        </div>
+                    </div>
+                    <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索用户名：
+                <div class="layui-inline">
+                <input class="layui-input" name="u_name" id="" +cols[i]['field']+""="" autocomplete="off" value="{$userid}" data-userid="userid">
+                </div><span style="margin:0 2rem"></span></div></span>
+                </form>
+                <button class="layui-btn" data-type="search">搜索</button>
+                <button class="layui-btn" data-type="clear">清空</button>
+            </div>
+        <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp"></div>
+                <div class="layui-table-tool-self">
+                    <!-- <div class="layui-inline" title="筛选列" lay-event="LAYTABLE_COLS"><i class="layui-icon layui-icon-cols"></i></div>
+                    <div class="layui-inline" title="导出" lay-event="LAYTABLE_EXPORT"><i class="layui-icon layui-icon-export"></i></div>
+                    <div class="layui-inline" title="打印" lay-event="LAYTABLE_PRINT"><i class="layui-icon layui-icon-print"></i></div> -->
+                </div>
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th data-field="ub_id" data-key="2-0-0" class=" layui-unselect">
+                                    <div class="layui-table-cell laytable-cell-2-0-0">
+                                        <span>ID</span>
+                                        <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span>
+                                    </div>
+                                </th>
+                                <th data-field="u_name" data-key="2-0-1" class="">
+                                    <div class="layui-table-cell laytable-cell-2-0-1">
+                                        <span>用户名</span>
+                                    </div>
+                                </th>
+                                <th data-field="ub_money" data-key="2-0-2" class="">
+                                    <div class="layui-table-cell laytable-cell-2-0-2">
+                                        <span>操作金额</span>
+                                    </div>
+                                </th>
+                                <th data-field="ub_type" data-key="2-0-3" class="">
+                                    <div class="layui-table-cell laytable-cell-2-0-3">
+                                        <span>财务类型</span>
+                                    </div>
+                                </th>
+                                <th data-field="ub_zongzichan" data-key="2-0-5" class="">
+                                    <div class="layui-table-cell laytable-cell-2-0-5"><span>剩余金额</span></div>
+                                </th>
+                                <th data-field="ub_create_time" data-key="2-0-7" class=" layui-unselect">
+                                    <div class="layui-table-cell laytable-cell-2-0-7"><span>时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div>
+                                </th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            {volist name="money1" id="vo"}
+                            <tr data-index="1" class="">
+                                <td data-field="ub_id" data-key="2-0-0" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                                <td data-field="u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">{$vo.userid}</div></td>
+                                <td data-field="ub_money" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2">{$vo.get_money}</div></td>
+                                <td data-field="ub_type" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3">{$vo.from}</div></td>
+                                <td data-field="ub_zongzichan" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.money}</div></td>
+                                <td data-field="ub_create_time" data-key="2-0-7" class=""><div class="layui-table-cell laytable-cell-2-0-7">{$vo.create_time}</div></td>
+                            </tr>
+                            {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {$money1->render()}
+            
+                <style>
+                .laytable-cell-2-0-0{ width: 100px; }
+                /* .laytable-cell-2-0-1{  }
+                .laytable-cell-2-0-2{  }
+                .laytable-cell-2-0-3{  }
+                .laytable-cell-2-0-4{  }
+                .laytable-cell-2-0-5{  } */
+                .laytable-cell-2-0-6{ width: 100px; }
+                /* .laytable-cell-2-0-7{  }
+                .laytable-cell-2-0-8{  } */
+                </style></div>
+                        <script type="text/javascript">
+            $("button[data-type='search']").click(function(){
+                var userid = $("input[data-userid='userid']").val();
+                var date = $("input[data-date='date']").val();
+                location.href="{:url('ffadmin/money1/banklistksye')}?userid=" + userid + "&&date="+date;
+            });
+
+            $("button[data-type='clear']").click(function(){
+                location.href="{:url('ffadmin/money1/banklistksye')}";
+            });
+        </script>
+        <!--表格主体 END-->
+
+        <!--右侧固定栏 BEGIN-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit" onclick='passcashout("{{d.u_id}}");' >审核通过</a>
+        </script>
+        <!--右侧固定栏 END-->
+
+        <script type="text/html" id="switchTpl">
+            <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+        </script>
+
+        <script type="text/html" id="type">
+
+                <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                    {{d.u_type}}
+                </a>
+
+            <!--<a href="#" ></a>-->
+        </script>
+
+
+        <script type="text/html" id="level">
+
+            <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                {{d.u_level}}
+            </a>
+
+            <!--<a href="#" ></a>-->
+        </script>
+
+
+        <!--表格自定义按钮 BEGIN-->
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <a href="#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add();">
+                    添加用户
+                </a>
+            </div>
+        </script>
+        <!--表格自定义按钮 END-->
+
+    </section>
+</section>
+
+<!-- <script>
+    var table = layui.table, form = layui.form;
+    var zhujian = "u_id";
+    var title = "用户列表";
+    var tableUrl = "/admin.php/user/ajaxgetuserplist.html";
+    var cols = [
+        // {type: 'checkbox',hide:true}
+        ,{field:'u_id', title: 'ID',sort: true,width: 100}
+        ,{field:'u_uplevel', title: '类型',search:true,width: 100}
+        ,{field:'u_name', title: '用户名',search:true,minwidth: 150,templet:'#user'}
+        ,{field:'u_type', title: '用户类型',sminwidth: 150}
+        ,{field:'u_level', title: '用户级别',sminwidth: 150}
+        ,{field:'u_center_id', title: '报单中心',sminwidth: 150,search:true}
+        ,{field:'u_nick_name', title: '姓名',minwidth: 150}
+        ,{field:'u_tel', title: '手机号',search:true,minwidth: 150}
+        ,{field:'u_create_time', title: '注册时间',sort: true,minwidth: 150}
+        ,{title:'操作', toolbar: '#barDemo', width:150}
+    ];
+
+
+
+
+    function change(id){
+        $(".modal-title").text("修改用户级别");
+        $("#submit").text("修改");
+        $("#form2").attr("action","/admin.php/user/changeuserlevelact.html");
+        $("#au_id").attr("disabled",true);
+        $("input[type=reset]").trigger("click");
+        $.post("/admin.php/user/ajaxgetuserinfo.html",{id:id},function (e) {
+
+            $("#u_name2").val(e.u_name);
+            $("#u_type2").val(e.u_type);
+            $("#u_id2").val(e.u_id);
+        },"json");
+    }
+
+
+
+    function enable(id){
+        $.post("/admin.php/user/enableuserstateact.html",{"id":id},function (e) {
+            showMsg(e.msg);
+        },"json");
+    }
+
+
+    function passcashout(id){
+        var _url="/admin.php/user/passuseract.html";
+        $.ajax({
+            type: "POST", // 用POST方式传输
+            url: _url, // 目标地址
+            data:{"id":id},
+            success: function (data) {
+                showMsg(data.msg);
+            },
+            error:function(data){
+                showMsg(data);
+            }
+        });
+    }
+
+
+
+</script> -->
+
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+
+        //日期范围
+        laydate.render({
+            elem: '#testaa'
+            ,range: true
+        });
+
+    });
+</script>
+<script type="text/javascript" src="js/table.js"></script>
+
+
+</section>
+
+{/block}

@@ -1,0 +1,69 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">财务管理</a></li>
+            <li class="active" id="son_menu">账户充值</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>支持扣款操作，输入负数即可！</p>
+        </div>
+        <!--操作说明 END-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">用户充值</h4>
+            </div>
+            <div class="modal-body" style="max-width: 720px">
+                <form role="form" method="post" action="{:url('ffadmin/money/doRecharge')}" >
+                    <div class="form-group">
+                        <label for="u_name">用户账号</label>
+                        <div class="password">
+                            <input type="text" class="form-control" id="u_name" name="u_name" placeholder="请输入用户账号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="money">充值金额</label>
+                        <div class="password">
+                            <input type="text" class="form-control" id="money" name="money" placeholder="请输入充值金额">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="money_type">充值钱包</label>
+                        <div class="password">
+                            <select class="form-control m-bot15" id="money_type" name="money_type">
+                                <option value="1">usdt</option>
+                                <option value="2">提现钱包</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ub_msg">充值备注</label>
+                        <div class="password">
+                            <input type="text" class="form-control" id="ub_msg" name="ub_msg" placeholder="请输入充值备注（选填）">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-default" id="submit" onclick="">确认充值</button>
+                    <input type="reset" name="reset" style="display: none;">
+                </form>
+            </div>
+        </div>
+
+    </section>
+</section>
+</section>
+
+{/block}

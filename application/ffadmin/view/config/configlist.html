@@ -1,0 +1,207 @@
+{extend name="public/base"} {block name="content"}
+    <section id="main-content">
+        <section class="wrapper">
+            <!--面包屑导航 BEGIN-->
+            <ul class="breadcrumb">
+                <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+                <li><a href="javascript:;" id="parent_menu">系统管理</a></li>
+                <li class="active" id="son_menu">奖金参数配置</li>
+            </ul>
+            <!--面包屑导航 END-->
+
+            <!--操作说明 BEGIN-->
+            <div class="alert alert-success alert-block fade in">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+                </button>
+                <h4>
+                    <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                    操作说明！
+                </h4>
+                <p>一些系统的参数</p>
+            </div>
+            <!--操作说明 END-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">奖金参数配置</h4>
+                    <p class="help-block" style="color: #ff766c">所有百分比按整数计算;如想设置10%,则输入框内填入10即可</p>
+                </div>
+                <div class="modal-body" style="max-width: 720px">
+                    <form role="form" method="post" class="layui-form" action="{:url('ffadmin/config/addConfig')}" >
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>MNS设置 </h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>MNS单价<input type="text" class="form-control" name="mns" value="{$arr.mns}" style="display: inline;width:100px"></span><br>
+                                <span>1USDT等于<input type="text" class="form-control" name="mnsbei" value="{$arr.mnsbei}" style="display: inline;width:100px">MNS</span><br>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>静态收益</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>
+                                一星投资金额
+                                    <input type="text" class="form-control" name="money1" value="{$arr.money1}" style="display: inline;width:80px">静态收益，
+                                    <input type="text" class="form-control" name="shouyi1" value="{$arr.shouyi1}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>
+                                二星投资金额
+                                    <input type="text" class="form-control" name="money2" value="{$arr.money2}" style="display: inline;width:80px">静态收益，
+                                    <input type="text" class="form-control" name="shouyi2" value="{$arr.shouyi2}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>
+                                三星投资金额
+                                    <input type="text" class="form-control" name="money3" value="{$arr.money3}" style="display: inline;width:80px">静态收益，
+                                    <input type="text" class="form-control" name="shouyi3" value="{$arr.shouyi3}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>
+                                四星投资金额
+                                    <input type="text" class="form-control" name="money4" value="{$arr.money4}" style="display: inline;width:80px">静态收益，
+                                    <input type="text" class="form-control" name="shouyi4" value="{$arr.shouyi4}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>
+                                五星投资金额
+                                    <input type="text" class="form-control" name="money5" value="{$arr.money5}" style="display: inline;width:80px">静态收益，
+                                    <input type="text" class="form-control" name="shouyi5" value="{$arr.shouyi5}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>
+                                出局倍率
+                                    <input type="text" class="form-control" name="bei" value="{$arr.bei}" style="display: inline;width:80px">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>推荐奖励 </h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>二星一代<input type="text" class="form-control" name="dai21" value="{$arr.dai21}" style="display: inline;width:100px">%</span><br>
+                                <span>四星一代<input type="text" class="form-control" name="dai41" value="{$arr.dai41}" style="display: inline;width:100px">%</span>，
+                                二代<input type="text" class="form-control" name="dai42" value="{$arr.dai42}" style="display: inline;width:100px">%</span>
+                                <br>
+                                <span>五星一代<input type="text" class="form-control" name="dai51" value="{$arr.dai51}" style="display: inline;width:100px">%，二代
+                                <input type="text" class="form-control" name="dai52" value="{$arr.dai52}" style="display: inline;width:100px">%，三代
+                                    <input type="text" class="form-control" name="dai53" value="{$arr.dai53}" style="display: inline;width:100px">%</span><br>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>业绩奖 </h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>一星一代
+                                <input type="text" class="form-control" name="yj_dai11" value="{$arr.yj_dai11}" style="display: inline;width:100px">%</span><br>
+                                <span>二星一代<input type="text" class="form-control" name="yj_dai21" value="{$arr.yj_dai21}" style="display: inline;width:100px">%，二代
+                                <input type="text" class="form-control" name="yj_dai22" value="{$arr.yj_dai22}" style="display: inline;width:100px">%</span><br>
+                                <span>三星一代<input type="text" class="form-control" name="yj_dai31" value="{$arr.yj_dai31}" style="display: inline;width:100px">%，2——5代
+                                <input type="text" class="form-control" name="yj_dai32" value="{$arr.yj_dai32}" style="display: inline;width:100px">%</span><br>
+                                <span>四星一代<input type="text" class="form-control" name="yj_dai41" value="{$arr.yj_dai41}" style="display: inline;width:100px">%，2——5代
+                                <input type="text" class="form-control" name="yj_dai42" value="{$arr.yj_dai42}" style="display: inline;width:100px">%，6——10代
+                                <input type="text" class="form-control" name="yj_dai46" value="{$arr.yj_dai46}" style="display: inline;width:100px">%</span><br>
+                                <span>五星一代<input type="text" class="form-control" name="yj_dai51" value="{$arr.yj_dai51}" style="display: inline;width:100px">%，2——5代
+                                <input type="text" class="form-control" name="yj_dai52" value="{$arr.yj_dai52}" style="display: inline;width:100px">%，6——10代
+                                <input type="text" class="form-control" name="yj_dai56" value="{$arr.yj_dai56}" style="display: inline;width:100px">%，11——20代
+                                <input type="text" class="form-control" name="yj_dai511" value="{$arr.yj_dai511}" style="display: inline;width:100px">%</span><br>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>团队奖</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>初级直推<input type="text" class="form-control" name="team1" value="{$arr.team1}" style="display: inline;width:80px">个五星或团队业绩
+                                <input type="text" class="form-control" name="tmoney" value="{$arr.tmoney}" style="display: inline;width:80px">美金，奖励
+                                <input type="text" class="form-control" name="jiang1" value="{$arr.jiang1}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>中级任意<input type="text" class="form-control" name="team2" value="{$arr.team2}" style="display: inline;width:80px">条线各出现一个初级，奖励
+                                <input type="text" class="form-control" name="jiang2" value="{$arr.jiang2}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>高级任意<input type="text" class="form-control" name="team3" value="{$arr.team3}" style="display: inline;width:80px">条线各出现一个中级，奖励
+                                <input type="text" class="form-control" name="jiang3" value="{$arr.jiang3}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>超级任意<input type="text" class="form-control" name="team4" value="{$arr.team4}" style="display: inline;width:80px">条线各出现一个高级，奖励
+                                <input type="text" class="form-control" name="jiang4" value="{$arr.jiang4}" style="display: inline;width:80px">%
+                                </span><br>
+                                <span>平级拿<input type="text" class="form-control" name="jiang5" value="{$arr.jiang5}" style="display: inline;width:80px">%,(初级除外)
+                                </span><br>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>提现设置</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>满<input type="text" class="form-control" name="full" value="{$arr.full}" style="display: inline;width:80px">美金可以提现，提现单笔手续费
+                                <input type="text" class="form-control" name="shouxu" value="{$arr.shouxu}" style="display: inline;width:80px">USDT
+                                </span><br>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>提复投设置</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>5星以下复投倍数<input type="text" class="form-control" name="ftbei1" value="{$arr.ftbei1}" style="display: inline;width:80px">，5星复投倍数
+                                <input type="text" class="form-control" name="ftbei2" value="{$arr.ftbei2}" style="display: inline;width:80px">
+                                </span><br>
+                            </div>
+                        </div>
+
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.5rem">
+                                <h4>其他设置</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <span>会员出局后，超<input type="text" class="form-control" name="dong" value="{$arr.dong}" style="display: inline;width:80px">小时不复投，冻结账号
+                                </span><br>
+                                <span>每天提现次数<input type="text" class="form-control" name="tixian" value="{$arr.tixian}" style="display: inline;width:80px">
+                                </span><br>
+                                <span>每个账号最大投资金额<input type="text" class="form-control" name="maxmoney" value="{$arr.maxmoney}" style="display: inline;width:80px">
+                                </span><br>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 1rem;clear: both"></div>
+                        <div class="form-group">
+                            <div class="col-md-3" style="margin-top: 0.8rem">前台系统开关</div>
+                            <div class="col-md-9">
+                                <input type="checkbox" name="ob_home" lay-skin="switch" lay-text="打开|关闭" {if condition="$arr.ob_home==1"} checked="" {/if}><div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch"><em>打开</em><i></i></div>
+                                <p class="help-block" style="color: #ff766c">关闭后，用户将无法访问系统</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 5rem;clear: both"></div>
+                        <button type="submit" class="btn btn-default" id="" onclick="">修改</button>
+                        <input type="reset" name="reset" style="display: none;">
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+
+    $(".layui-form-switch").click(function (obj) {
+        if(obj.checked){
+            obj.value=1;
+        }else{
+            obj.value=0;
+        }
+    });
+    </script>
+</section>
+
+{/block}

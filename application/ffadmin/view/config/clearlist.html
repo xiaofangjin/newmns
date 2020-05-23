@@ -1,0 +1,107 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('index/deal/tradehall')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img//sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">系统管理</a></li>
+            <li class="active" id="son_menu">清空数据</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img//cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img//dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>清空数据</p>
+        </div>
+        <!--操作说明 END-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">清空数据</h4>
+            </div>
+            <div class="modal-body" style="max-width: 720px">
+
+                <button class="layui-btn layui-btn-warm" onclick="clearuser();">清空所有会员</button>
+
+
+
+                <button class="layui-btn layui-btn-danger" onclick="clearyewu();">清空业务数据</button>
+
+                <br>
+                <br>
+                <br>
+                <br>
+
+
+
+            </div>
+
+        </div>
+
+    </section>
+</section>
+
+<script>
+
+    clearuser = function(){
+        layer.confirm('您确认要清空所有会员？清空后无法恢复！', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.msg('该功能需谨慎操作');
+            return false;
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                url:"{:url('ffadmin/config/clearuser')}",
+                success:function(res){
+                    if (res.con==1) {
+                        layer.msg('删除成功',function(){
+                            window.location.reload();
+                        });
+                    }
+                    if (res.con==0) {
+                        layer.msg('删除失败');
+                    }
+                }
+            });
+        }, function(){
+            layer.msg('取消成功');
+        });
+    }
+    clearyewu = function(){
+        layer.confirm('您确认要清空所有业务数据？清空后无法恢复！', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.msg('该功能需谨慎操作');
+            return false;
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                url:"{:url('ffadmin/config/clearyewu')}",
+                success:function(res){
+                    if (res.con==1) {
+                        layer.msg('删除成功',function(){
+                            window.location.reload();
+                        });
+                    }
+                    if (res.con==0) {
+                        layer.msg('删除失败');
+                    }
+                }
+            });
+        }, function(){
+            layer.msg('取消成功');
+        });
+    }
+</script>
+
+
+</section>
+
+{/block}

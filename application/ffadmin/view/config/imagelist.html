@@ -1,0 +1,124 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+    .layui-laydate.layui-laydate-range{
+        width:100%;
+        overflow-y: hidden;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+</style>
+{/block}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+    .layui-laydate.layui-laydate-range{
+        width:100%;
+        overflow-y: hidden;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+</style>
+{/block}
+{block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="index.html"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img//sy.png"
+                                                               alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">系统管理</a></li>
+            <li class="active" id="son_menu">上传系统图片</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>上传系统图片</p>
+        </div>
+        <!--操作说明 END-->
+        <style>
+            .input[type=radio]:checked {
+                border: 2px solid #44abf7;
+                background: #fff;
+            }
+
+            .layui-upload-img {
+                width: 92px;
+                height: 92px;
+                margin: 0 10px 10px 0;
+            }
+        </style>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">图片上传</h4>
+            </div>
+        <div class="layui-table-box">
+            <div class="layui-table-body">
+                <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th data-field="sm_id" data-key="2-0-0" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-0"><span>ID</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                        <th data-field="u_name" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>图片</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                        <th data-field="u_name" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>类型</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+
+                        <th data-field="u_nick_name" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2"><span>管理员账号</span></div></th>
+                        <th data-field="9" data-key="2-0-9" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-9"><span>操作</span></div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <!-- </table>
+                </div>
+                <div class="layui-table-body layui-table-main">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                    <tbody>
+                        {volist name="image" id="vo"}
+                    <tr data-index="0" class="">
+
+                        <td data-field="sm_id" data-key="2-0-0" class="">
+                            <div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                        <td data-field="u_name" data-key="2-0-1" class=""><img src="__STATIC__/upload/{$vo.image}"></td>
+                        {if condition="$vo.type==1"}
+                        <td data-field="u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-0">微信图片</div></td>
+                        {else}
+                        <td data-field="u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-0">QQ图片</div></td>
+                        {/if}
+                        <td data-field="u_nick_name" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2">{$vo.adminid}</div></td>
+                        <td data-field="sm_create_time" data-key="2-0-8" class=""><div class="layui-table-cell laytable-cell-2-0-8">
+                            <form role="form" method="post" class="layui-form" action="{:url('ffadmin/config/getImg',['id'=>$vo.id])}" enctype="multipart/form-data">
+                                        <input type="file"  name="image"  value="">
+                                <button type="submit" class="btn btn-default" >添加</button>
+                                <input type="hidden" id="saveImage">
+                            </form>
+                        </div></td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</section>
+<script type="text/javascript">
+
+</script>
+
+
+
+</section>
+
+{/block}

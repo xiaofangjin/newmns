@@ -1,0 +1,316 @@
+{extend name="public/base"}
+{block name="aabbcc"}
+<style>
+    .layui-table-cell{
+        height: auto;
+    }
+    .layui-layer.layui-layer-dialog{
+        width:100% !important;
+    }
+</style>
+{/block}
+{block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">交易大厅管理</a></li>
+            <li class="active" id="son_menu">矿机设置</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>矿机列表</p>
+        </div>
+        <!--操作说明 END-->
+
+        <!--搜索区域 BEGIN-->
+        <div class="demoTable">
+            <form style="display: inline" id="search">
+                <span style="margin:0 2rem"></span>
+                <span><div style="display: inline-block;margin-top: 0.2rem">搜索买家：
+                    <div class="layui-inline">
+                    <input class="layui-input" name="u.u_name" id="" +cols[i]['field']+""="" autocomplete="off" data-name="name" value="{$name}">
+                    </div>
+                    <div class="layui-inline">
+                    </div><span style="margin:0 2rem"></span></div></span>
+            </form>
+            <button class="layui-btn" data-type="search">搜索</button>
+            <button class="layui-btn" data-type="clear">清空</button>
+        </div>
+        <!--搜索区域 END-->
+<!--        <button class="layui-btn" data-type="add" onclick="addProduct()">添加产品</button>-->
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test">
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp"></div>
+                <div class="layui-table-tool-self">
+                    <!-- <div class="layui-inline" title="筛选列" lay-event="LAYTABLE_COLS"><i class="layui-icon layui-icon-cols"></i></div>
+                    <div class="layui-inline" title="导出" lay-event="LAYTABLE_EXPORT"><i class="layui-icon layui-icon-export"></i></div>
+                    <div class="layui-inline" title="打印" lay-event="LAYTABLE_PRINT"><i class="layui-icon layui-icon-print"></i></div> -->
+                </div>
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th data-field="rs_no" data-key="2-0-0" class=" layui-unselect">
+                                <div class="layui-table-cell laytable-cell-2-0-0"><span>订单编号</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div></th>
+                            <th data-field="u.u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1"><span>矿机类型</span></div></th>
+                            <th data-field="rs_money" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"><span>价格</span></div></th>
+                            <th data-field="rs_money" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"><span>每小时产量</span></div></th>
+                            <th data-field="rs_status" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4"><span>状态</span></div></th>
+                            <th data-field="rs_buy_time" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5"><span>时间</span></div>
+                            </th>
+                            <th data-field="6" data-key="2-0-6" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"><span>操作</span></div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <!-- </table>
+                    </div>
+                    <div class="layui-table-body layui-table-main">
+                        <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                        {volist name="kuangji" id="vo"}
+                        <tr data-index="0" >
+                            <td data-field="rs_no" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                            <td data-field="u.u_name" data-key="2-0-1" data-content="" class=""><div class="layui-table-cell laytable-cell-2-0-1"> <p>{$vo.name}</p> </div></td>
+                            <td data-field="rs_money" data-key="2-0-3" data-content="1000.00" class=""><div class="layui-table-cell laytable-cell-2-0-3"> <p>挂卖金额:{$vo.money}</p> </div></td>
+                            <td data-field="rs_no" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.get_money}</div></td>
+                            {if condition="$vo.status==0"}
+                            <td data-field="rs_status" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">未激活</div></td>
+                            {else}
+                            <td data-field="rs_status" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">激活</div></td>
+                            {/if}
+                            <td data-field="rs_buy_time" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5">{$vo.create_time}</div></td>
+                            <td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special">
+                                <div class="layui-table-cell laytable-cell-2-0-20">
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delKuangji('{$vo.id}')">删除</a>
+                                    {if condition="$vo.status==0"}
+                                    <a class="layui-btn layui-btn-success layui-btn-xs" onclick="editStyle('{$vo.id}')">激活</a>
+                                    {else}
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="editStyle('{$vo.id}')">冻结</a>
+                                    {/if}
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="editKuangji('{$vo.id}')">修改</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$kuangji->render()}
+                <div id='hidden' style="display:none">
+                    <ul class="forminfo">
+                        <div class="col-md-3" style="margin-top: 0.5rem">
+                            <label>商品名:</label>
+                        </div>
+                        <div class="col-md-9" style="margin-top: 0.5rem">
+                            <input type="text"   style="height: 30px;width: 200"/ name="product" value="" data-name="name">
+                        </div>
+                        <div class="col-md-3" style="margin-top: 0.5rem">
+                            <label>价格:</label>
+                        </div>
+                        <div class="col-md-9" style="margin-top: 0.5rem">
+                            <input type="text"  style="height: 30px;width: 200"/ name="price" value="" data-price="price" placeholder="请填写正确的数字">
+                        </div>
+                        <div class="col-md-3" style="margin-top: 0.5rem">
+                            <label>寿命:</label>
+                        </div>
+                        <div class="col-md-9" style="margin-top: 0.5rem">
+                            <input type="text"  style="height: 30px;width: 200"/ name="lifetime" value="" data-lifetime="lifetime" placeholder="请填写正确的数字">小时
+                        </div>
+                        <div class="col-md-3" style="margin-top: 0.5rem">
+                            <label>总收益:</label>
+                        </div>
+                        <div class="col-md-9" style="margin-top: 0.5rem">
+                            <input type="text"  style="height: 30px;width: 200"/ name="get_money" value="" data-get_money="get_money" placeholder="请填写正确的数字">
+                        </div>
+                    </ul>
+                </div>
+                <!-- <div class="layui-table-fixed layui-table-fixed-r layui-hide" style="right: -1px;"><div class="layui-table-header"><table cellspacing="0" cellpadding="0" border="0" class="layui-table"><thead><tr><th data-field="6" data-key="2-0-6" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"><span>操作</span></div></th></tr></thead></table><div class="layui-table-mend"></div></div><div class="layui-table-body" style="height: 755px;"><table cellspacing="0" cellpadding="0" border="0" class="layui-table"><tbody><tr data-index="0" class="layui-table-hover"><td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"> <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delrecharge('12');">删除</a> </div></td></tr><tr data-index="1"><td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"> <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delrecharge('13');">删除</a> </div></td></tr><tr data-index="2"><td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"> <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delrecharge('14');">删除</a> </div></td></tr><tr data-index="3"><td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"> <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delrecharge('15');">删除</a> </div></td></tr><tr data-index="4"><td data-field="6" data-key="2-0-6" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"> <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="delrecharge('16');">删除</a> </div></td></tr></tbody></table></div></div></div><div class="layui-table-total"><table cellspacing="0" cellpadding="0" border="0" class="layui-table"><tbody><tr><td data-field="rs_no" data-key="2-0-0" class=""><div class="layui-table-cell laytable-cell-2-0-0"></div></td><td data-field="u.u_name" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1"></div></td><td data-field="us.u_name" data-key="2-0-2" class=""><div class="layui-table-cell laytable-cell-2-0-2"></div></td><td data-field="rs_money" data-key="2-0-3" class=""><div class="layui-table-cell laytable-cell-2-0-3"></div></td><td data-field="rs_status" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4"></div></td><td data-field="rs_buy_time" data-key="2-0-5" class=""><div class="layui-table-cell laytable-cell-2-0-5"></div></td><td data-field="6" data-key="2-0-6" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-6"></div></td></tr></tbody></table></div><div class="layui-table-page"><div id="layui-table-page2"><div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-2"><a href="javascript:;" class="layui-laypage-prev layui-disabled" data-page="0"><i class="layui-icon"></i></a><span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span><a href="javascript:;" class="layui-laypage-next layui-disabled" data-page="2"><i class="layui-icon"></i></a><span class="layui-laypage-skip">到第<input type="text" min="1" value="1" class="layui-input">页<button type="button" class="layui-laypage-btn">确定</button></span><span class="layui-laypage-count">共 5 条</span><span class="layui-laypage-limits"><select lay-ignore=""><option value="2">2 条/页</option><option value="10" selected="">10 条/页</option><option value="30">30 条/页</option><option value="60">60 条/页</option><option value="100">100 条/页</option></select></span></div></div></div> -->
+                <style>
+                    .laytable-cell-2-0-0{ width: 150px; }
+                    /* .laytable-cell-2-0-1{  }
+                    .laytable-cell-2-0-2{  }
+                    .laytable-cell-2-0-3{  }
+                    .laytable-cell-2-0-4{  }
+                    .laytable-cell-2-0-5{  } */
+                    .laytable-cell-2-0-6{ width: 150px; }
+                </style>
+            </div>
+            <!--表格主体 END-->
+            <script type="text/javascript">
+                $("button[data-type='search']").click(function(){
+                    var name = $("input[data-name='name']").val();
+                    location.href="{:url('ffadmin/receive/kuangjilist')}?name=" + name;
+                });
+
+                $("button[data-type='clear']").click(function(){
+                    location.href="{:url('ffadmin/receive/kuangjilist')}";
+                });
+                delKuangji = function(id){
+                    layer.confirm('您确认要删除？删除后无法恢复！', {
+                        btn: ['确认','取消'] //按钮
+                    }, function(){
+                        $.ajax({
+                            type:'post',
+                            dataType:'json',
+                            url:"{:url('ffadmin/receive/deleteKuangji')}",
+                            data:{id:id},
+                            success:function(res){
+                                if (res.con==1) {
+                                    layer.msg('删除成功',function(){
+                                        window.location.reload();
+                                    });
+                                }
+                                if (res.con==0) {
+                                    layer.msg('删除失败');
+                                }
+                            }
+                        });
+                    }, function(){
+                        layer.msg('取消成功');
+                    });
+                }
+                editStyle = function(id){
+                    $.ajax({
+                        type:'post',
+                        dataType:'json',
+                        url:"{:url('ffadmin/receive/editKuangji')}",
+                        data:{id:id},
+                        success:function(res){
+                            if (res.con==1) {
+                                layer.msg(res.message,function(){
+                                    window.location.reload();
+                                });
+                            }
+                            if (res.con==0) {
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                }
+                addProduct = function(){
+                    layer.open({
+                        title: '添加产品',
+                        content: $("#hidden").html(),
+                        closeBtn: 1,
+                        area: ['500px', '280px'],
+                        maxmin: true,
+                        btn: ['确定', '关闭'],
+                        btn1: function () {
+                            var name= $("input[name='product']").eq(1).val();
+                            var money= $("input[name='price']").eq(1).val();
+                            var life_time= $("input[name='lifetime']").eq(1).val();
+                            var get_money= $("input[name='get_money']").eq(1).val();
+                            $.ajax({
+                                type:'post',
+                                dataType:'json',
+                                url:"{:url('ffadmin/receive/modifyProduct')}",
+                                data:{name:name,money:money,life_time:life_time,get_money:get_money},
+                                success:function(res){
+                                    if (res.con==1) {
+                                        layer.msg(res.message,function(){
+                                            window.location.reload();
+                                        });
+                                    }
+                                    if (res.con==0) {
+                                        layer.msg(res.message);
+                                    }
+                                }
+                            })
+                        },
+                        btn2:function(){
+                            layer.closeAll();
+                        }
+                    });
+                }
+
+                editKuangji = function(id){
+                    $.post("{:url('ffadmin/receive/editProduct')}",{id,id},function(html) {
+                        layer.open({
+                            title: '修改产品',
+                            content: html,
+                            closeBtn: 1,
+                            area: ['500px', '280px'],
+                            maxmin: true,
+                            btn: ['确定', '关闭'],
+                            btn1: function () {
+                                var name= $("#product1").val();
+                                var money= $("#price1").val();
+                                var lifetime= $("#lifetime1").val();
+                                var get_money= $("#get_money1").val();
+                                $.ajax({
+                                    type:'post',
+                                    dataType:'json',
+                                    url:"{:url('ffadmin/receive/modifyProduct')}",
+                                    data:{id:id,name:name,money:money,life_time:lifetime,get_money:get_money},
+                                    success:function(res){
+                                        if (res.con==1) {
+                                            layer.msg(res.message,function(){
+                                                window.location.reload();
+                                            });
+                                        }
+                                        if (res.con==0) {
+                                            layer.msg(res.message);
+                                        }
+                                    }
+                                })
+                            },
+                            btn2:function(){
+                                layer.closeAll();
+                            }
+                        });
+                    });
+                }
+
+
+            </script>
+            <!--右侧固定栏 BEGIN-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" onclick='delrecharge("{{d.rs_id}}");'>删除</a>
+            </script>
+            <!--右侧固定栏 END-->
+
+            <script type="text/html" id="switchTpl">
+                <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.u_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.u_id}}');">{{ d.u_is_frozen == 0 ? '激活' : '冻结' }}</span>
+            </script>
+
+            <script type="text/html" id="type">
+
+                <a href="#myModal1" data-toggle="modal"  onclick='change("{{d.u_id}}");'>
+                    {{d.u_type}}
+                </a>
+
+                <!--<a href="#" ></a>-->
+            </script>
+
+
+    </section>
+</section>
+
+<script>
+
+
+
+</script>
+
+
+<script type="text/javascript" src="__JS__/table.js"></script>
+
+
+</section>
+
+{/block}

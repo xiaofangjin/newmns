@@ -1,0 +1,195 @@
+ {extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+<ul class="breadcrumb">
+    <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+    <li><a href="javascript:;" id="parent_menu">新闻管理</a></li>
+    <li class="active" id="son_menu">公告管理</li>
+</ul>
+<!--面包屑导航 END-->
+
+<!--操作说明 BEGIN-->
+<div class="alert alert-success alert-block fade in">
+    <button data-dismiss="alert" class="close close-sm" type="button">
+        <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+    </button>
+    <h4>
+        <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+        操作说明！
+    </h4>
+    <p>发布系统公告</p>
+</div>
+<!--操作说明 END-->
+         <!--搜索区域 BEGIN-->
+         <div class="demoTable">
+                <form style="display: inline" id="search"><span><div style="display: inline-block;margin-top: 0.2rem">搜索公告标题：
+    <div class="layui-inline">
+    <input class="layui-input" name="nn_title" id=""  value="{$title}" data-title="title">
+    </div><span style="margin:0 2rem"></span></div></span></form>
+                <button class="layui-btn" data-type="search">搜索</button>
+                <button class="layui-btn" data-type="clear" onclick="aabbcc()" >清空</button>
+            </div>
+            <!--搜索区域 END-->
+
+        <!--表格主体 BEGIN-->
+        <table class="layui-hide" id="test" lay-filter="test1"></table>
+        <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-2" lay-id="test" >
+            <div class="layui-table-tool">
+                <div class="layui-table-tool-temp"> 
+                    <div class="layui-btn-container">
+                        <a href="noticelist.html#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add();"> 添加公告 </a> 
+                    </div> 
+                </div>
+
+            </div>
+            <div class="layui-table-box">
+                <div class="layui-table-body">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th data-field="nn_id" data-key="2-0-0" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-0"><span>ID</span><span class="layui-table-sort layui-inline"></span></div></th>
+                                <th data-field="nn_title" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>公告标题</span><span class="layui-table-sort layui-inline"></span></div></th>
+                                <th data-field="nn_title" data-key="2-0-1" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-1"><span>公告类型</span><span class="layui-table-sort layui-inline"></span></div></th>
+                                <th data-field="nn_create_time" data-key="2-0-4" class=" layui-unselect"><div class="layui-table-cell laytable-cell-2-0-4"><span>添加时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span></div>
+                                </th>
+                                <th data-field="5" data-key="2-0-5" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-5"><span>操作</span></div>
+                                </th>
+                            </tr>
+                        </thead>
+                    <!-- </table>
+                </div>
+                <div class="layui-table-body layui-table-main">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table"> -->
+                        <tbody>
+                            {volist name="news" id="vo"}
+                            <tr data-index="0">
+                                <td data-field="nn_id" data-key="2-0-0" class=""><div class="layui-table-cell laytable-cell-2-0-0">{$vo.id}</div></td>
+                                <td data-field="nn_title" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">{$vo.title}</div></td>
+                                {if $vo.type == 1}
+                                <td data-field="nn_title" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">系统消息</div></td>
+                                {else $vo.type == 2}
+                                <td data-field="nn_title" data-key="2-0-1" class=""><div class="layui-table-cell laytable-cell-2-0-1">资讯</div></td>
+                                {/if}
+                                <td data-field="nn_create_time" data-key="2-0-4" class=""><div class="layui-table-cell laytable-cell-2-0-4">{$vo.create_time}</div></td>
+                                <td data-field="5" data-key="2-0-5" data-off="true" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-2-0-5"><a href="{:url('ffadmin/news/addnotice',['id'=>$vo.id])}" class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> 
+                                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" onclick="del('{$vo.id}')">删除</a> </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                    </table>
+                </div>
+            </div>
+        </div>
+            {$news->render()}
+                <style>
+                .laytable-cell-2-0-0{ width: 100px; }
+                /* .laytable-cell-2-0-1{  }
+                .laytable-cell-2-0-2{  }
+                .laytable-cell-2-0-3{  }
+                .laytable-cell-2-0-4{  } */
+                .laytable-cell-2-0-5{ width: 150px; }
+                </style>
+                </div>
+        <!--表格主体 END-->
+            <script type="text/javascript">
+                $("button[data-type='search']").click(function(){
+                var title = $("input[data-title='title']").val();
+                var comment = $("input[data-comment='comment']").val();
+                location.href="{:url('ffadmin/news/noticelist')}?title=" + title + "&&comment="+comment;
+            });
+
+
+                aabbcc = function(){
+                    location.href="{:url('ffadmin/news/noticelist')}";
+                }
+
+                del = function(id){
+                        layer.confirm('您确认要删除？删除后无法恢复！', {
+                            btn: ['确认','取消'] //按钮
+                            }, function(){
+                              $.ajax({
+                                        type:'post',
+                                        dataType:'json',
+                                        url:"{:url('ffadmin/news/delete')}",
+                                        data:{id:id},
+                                        success:function(res){
+                                            if (res.con==1) {
+                                                layer.msg('删除成功',function(){
+                                                    window.location.reload();
+                                                });                               
+                                            }
+                                            if (res.con==0) {
+                                                layer.msg('删除失败');
+                                            }
+                                        }
+                                    });
+                            }, function(){
+                              layer.msg('取消成功');
+                });
+            }
+
+            </script>
+
+        <!--右侧固定栏 BEGIN-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+
+        <!--右侧固定栏 END-->
+        <script type="text/html" id="switchTpl">
+            <span style="pointer-events: auto; cursor: pointer;" class="label {{ d.au_is_frozen == 0 ? 'label-success' : 'label-danger' }} label-mini" onclick="enable('{{d.au_id}}');">{{ d.au_is_frozen == 0 ? '激活' : '冻结' }}</span>
+        </script>
+        <!--表格自定义按钮 BEGIN-->
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <a href="#myModal" data-toggle="modal" class="layui-btn layui-btn-sm" onclick="add();">
+                    添加公告
+                </a>
+            </div>
+        </script>
+        <!--表格自定义按钮 END-->
+
+    </section>
+</section>
+
+
+<script>
+        // var table = layui.table, form = layui.form;
+        // var zhujian = "nn_id";
+        // var title = "公告列表";
+        // var tableUrl = "/admin.php/news/ajaxgetnoticelist.html";
+        // var cols = [
+        //     // {type: 'checkbox',hide:true}
+        //     ,{field:'nn_id', title: 'ID',sort: true,width: 100}
+        //     ,{field:'nn_title', title: '公告标题',sort: true,search:true,minwidth: 150}
+        //     ,{field:'nn_type', title: '公告类型',sort: true,minwidth: 150}
+        //     ,{field:'nn_intro', title: '公告描述',search:true,minwidth: 300}
+        //     ,{field:'nn_create_time', title: '添加时间',sort: true,minwidth: 150}
+        //     ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+        // ];
+    
+        // function tool(obj){
+        //     if(obj.event == "edit"){
+        //         window.location.href="/admin.php/news/addnotice.html?id="+obj.data[zhujian];
+        //     }else if(obj.event == "del"){
+        //         delAct(function () {
+        //             $.post("/admin.php/news/delnoticeact.html",{id:obj.data[zhujian]},function (e) {
+        //                 showMsg(e.msg);
+        //             },"__JS__on");
+        //         });
+        //     }
+        // }
+    
+        function add(){
+            window.location.href="addnotice.html";
+        }
+    </script>
+<script type="text/javascript" src="__STATIC__/admin/js/table.js"></script>
+
+
+
+</section>
+
+{/block}

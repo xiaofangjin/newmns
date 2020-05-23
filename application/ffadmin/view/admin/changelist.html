@@ -1,0 +1,65 @@
+{extend name="public/base"} {block name="content"}
+<section id="main-content">
+    <section class="wrapper">
+        <!--面包屑导航 BEGIN-->
+        <ul class="breadcrumb">
+            <li><a href="{:url('ffadmin/index/index')}"><i class="icon-home"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/sy.png" alt=""></i> 首页</a></li>
+            <li><a href="javascript:;" id="parent_menu">权限管理</a></li>
+            <li class="active" id="son_menu">修改密码</li>
+        </ul>
+        <!--面包屑导航 END-->
+
+        <!--操作说明 BEGIN-->
+        <div class="alert alert-success alert-block fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="icon-remove"><img style="width:20px" src="__STATIC__/admin/img/cuo.png" alt=""></i>
+            </button>
+            <h4>
+                <i class="icon-ok-sign"><img style="width:12px;margin-top: -3px" src="__STATIC__/admin/img/dh.png" alt=""></i>
+                操作说明！
+            </h4>
+            <p>修改个人的账户密码</p>
+        </div>
+        <!--操作说明 END-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body" style="max-width: 720px">
+                <form role="form" method="post" action="{:url('ffadmin/admin/doChange')}" >
+                    <div class="form-group">
+                        <label for="au_pwd">原始密码</label>
+                        <div class="password">
+                            <input type="password" class="form-control" id="au_pwd_o" name="au_pwd_o" placeholder="请输入密码">
+                            <span class="glyphicon form-control-feedback glyphicon-eye-close"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="au_pwd">新密码</label>
+                        <div class="password">
+                            <input type="password" class="form-control" id="au_pwd" name="au_pwd" placeholder="请输入密码">
+                            <span class="glyphicon glyphicon-eye-close form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="au_pwd2">重复新密码</label>
+                        <div class="password">
+                            <input type="password" class="form-control" id="au_pwd2" name="au_pwd2" placeholder="请再次输入密码">
+                            <span class="glyphicon glyphicon-eye-close form-control-feedback"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-default" id="submit" onclick="">修改</button>
+                    <input type="reset" name="reset" style="display: none;">
+                </form>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+</section>
+<script>
+
+</script>
+{/block}
